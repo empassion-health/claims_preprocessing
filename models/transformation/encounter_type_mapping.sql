@@ -65,7 +65,7 @@ with encounter_crosswalk as(
       when left(bill_type_code,2) = '68' then 'other'
       when left(bill_type_code,2) = '71' then 'outpatient'
       when left(bill_type_code,2) = '72' then 'dialysis center'
-      when left(bill_type_code,2) = '73' then 'federally qualified health center'
+      when left(bill_type_code,2) = '73' then 'other'
       when left(bill_type_code,2) = '74' then 'outpatient rehabilitation'
       when left(bill_type_code,2) = '75' then 'outpatient rehabilitation'
       when left(bill_type_code,2) = '76' then 'mental health center'
