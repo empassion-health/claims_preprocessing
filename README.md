@@ -13,7 +13,7 @@ We'll post the DAG for this preprocessing engine soon!
 
 Knowledge Base:
 - We'll post the full methodology for this preprocessing engine soon!
-- Check out the [data model](https://thetuvaproject.com/docs/data-models/claims-input-layer) used for this preprocessing engine
+- Check out the output [data model](https://thetuvaproject.com/docs/category/core) for this preprocessing engine
 
 ## Pre-requisites
 1. You have healthcare data (e.g. claims data) in a data warehouse (e.g. Snowflake)
