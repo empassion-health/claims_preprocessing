@@ -3,11 +3,11 @@
 # Claims Preprocessing
 
 This is the Tuva Project's Claims Preprocessing Engine, which is a dbt project to profile and transform raw claims data so that it's ready for analytics. It's based on a methodology we developed at Tuva based (1) our experience working with healthcare claims data and (2) published papers on the topic.  From a high-level it does the following things:
-    - Assigning encounter types to individual claim lines based on the bill type code and or revenue code of institutional claims 
+- Assigning encounter types to individual claim lines based on the bill type code and or revenue code of institutional claims 
 and the place of service code of professional claims.
-    - Grouping individual claims into encounters (this involves logic to, for example, merge claims with overlapping dates or 
+- Grouping individual claims into encounters (this involves logic to, for example, merge claims with overlapping dates or 
 adjacent dates into a single inpatient stay).
-    - Crosswalking professional claims to institutional encounters.
+- Crosswalking professional claims to institutional encounters.
 
 Check out the [DAG](https://tuva-health.github.io/chronic_conditions/#!/overview?g_v=1) for this data mart
 
