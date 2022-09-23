@@ -3,6 +3,7 @@
 # Claims Preprocessing
 
 This is the Tuva Project's Claims Preprocessing Engine, which is a dbt project to profile and transform raw claims data so that it's ready for analytics. It's based on a methodology we developed at Tuva using (1) our experience working with healthcare claims data and (2) published papers on the topic.  
+
 From a high-level it does the following things:
 - Assigns encounter types to individual claim lines using logic based on bill type code, revenue code, and place of service code
 - Groups individual claims into a single encounter by merging claims with overlapping or adjacent dates, for the same patient, provider, condition, etc.
@@ -11,7 +12,7 @@ From a high-level it does the following things:
 We'll post the DAG for this preprocessing engine soon!
 
 Knowledge Base:
-- We'll post the methodology for this preprocessing engine soon!
+- We'll post the full methodology for this preprocessing engine soon!
 - Check out the [data model](https://thetuvaproject.com/docs/data-models/claims-input-layer) used for this preprocessing engine
 
 ## Pre-requisites
