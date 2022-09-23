@@ -7,55 +7,45 @@ This is the Tuva Project's Claims Preprocessing Engine, which is a dbt project t
 - Groups individual claims into a single encounter by merging claims with overlapping or adjacent dates, for the same patient, provider, condition, etc.
 - Crosswalks professional claims to institutional encounters
 
-Check out the [DAG](https://tuva-health.github.io/chronic_conditions/#!/overview?g_v=1) for this data mart
+We'll post the DAG for this preprocessing engine soon!
 
 Knowledge Base:
 - We'll post the methodology for this preprocessing engine soon!
 - Check out the [data model](https://thetuvaproject.com/docs/data-models/claims-input-layer) used for this preprocessing engine
 
-
 ## Pre-requisites
-1. You have claims data (e.g. medicare, medicaid, or commercial) in a data warehouse
-2. You have mapped your claims data to the [claim input layer](https://docs.google.com/spreadsheets/d/1NuMEhcx6D6MSyZEQ6yk0LWU0HLvaeVma8S-5zhOnbcE/edit?usp=sharing)
-    - The claim input layer is at a claim line level and each claim id and claim line number is unique
-    - The eligibility input layer is unique at the month/year grain per patient and payer
-    - Revenue code is 4 digits in length
-2. You have [dbt](https://www.getdbt.com/) installed and configured (i.e. connected to your data warehouse)
+1. You have healthcare data (e.g. claims data) in a data warehouse (e.g. Snowflake)
+2. You have mapped your claims data to [Claims Input Layer](https://thetuvaproject.com/docs/data-models/claims-input-layer)
+3. You have [dbt](https://www.getdbt.com/) installed and configured (i.e. connected to your data warehouse)
 
 [Here](https://docs.getdbt.com/dbt-cli/installation) are instructions for installing dbt.
 
 ## Getting Started
-Complete the following steps to configure the package to run in your environment.
+Complete the following steps to configure the data mart to run in your environment.
 
 1. [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) this repo to your local machine or environment
-2. Create a database called 'tuva' in your data warehouse
-    - Note: this is optional, see step 4 for further detail
-3. Configure [dbt_project.yml](/dbt_project.yml)
-    - Fill in vars (variables):
-        - source_name - description of the dataset feeding this project
-        - input_database - database where sources feeding this project are stored
-        - input_schema - schema where sources feeding this project is stored
-        - output_database - database where output of this project should be written.  
-        We suggest using the Tuva database but any database will work.
-        - output_schema - name of the schema where output of this project should be written
-4. Review [sources.yml](models/sources.yml).  The table names listed are the same as in the Tuva data model (linked above).  If you decided to rename these tables:
-    - Update table names in sources.yml
-    - Update table name in medical_claim and eligibility jinja function
-5. Execute `dbt build` to load seed files, run models, and perform tests.
+2. Configure [dbt_project.yml](/dbt_project.yml)
+    - Profile: set to 'default' by default - change this to an active profile in the profile.yml file that connects to your data warehouse 
+    - Fill in the following vars (variables):
+      - source_name - description of the dataset feeding this project 
+      - input_database - database where sources feeding this project are stored 
+      - input_schema - schema where sources feeding this project is stored 
+      - output_database - database where output of this project should be written. We suggest using the Tuva database but any database will work. 
+      - output_schema - name of the schema where output of this project should be written
+3. Execute `dbt build` to load seed files, run models, and perform tests.
 
-## Usage Example
-Sample dbt command specifying new variable names dynamically:
-
+Alternatively you can execute the following code and skip step 2b and step 3.
 ```
-dbt build --vars '{input_database: extract_from_database, input_schema: extract_from_schema, output_database: insert_into_database, output_schema: insert_into_schema}'
+dbt build --vars '{input_database: my_database, input_schema: my_input, output_database: my_other_database, output_schema: i_love_data}'
 ```
 
 
 ## Contributions
 Have an opinion on the mappings? Notice any bugs when installing and running the package? 
-If so, we highly encourage and welcome contributions! 
+If so, we highly encourage and welcome contributions!
 
-Join the conversation on [Slack](https://tuvahealth.slack.com/ssb/redirect#/shared-invite/email)!  We'd love to hear from you on the #claims-preprocessing channel.
+## Community
+Join our growing community of healthcare data practitioners on [Slack](https://join.slack.com/t/thetuvaproject/shared_invite/zt-16iz61187-G522Mc2WGA2mHF57e0il0Q)!
 
 ## Database Support
-This package has been written for Snowflake.  Redshift is available [here](https://github.com/tuva-health/claims_preprocessing_redshift)
+This package has been tested on Snowflake and Redshift.
