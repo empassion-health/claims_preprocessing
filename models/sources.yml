@@ -5,5 +5,5 @@ sources:
     database: "{{ var('input_database') }}"
     schema:  "{{ var('input_schema') }}"
     tables:
-      - name: tn_medical_claim
+      - name: medical_claim
       - name: eligibility
