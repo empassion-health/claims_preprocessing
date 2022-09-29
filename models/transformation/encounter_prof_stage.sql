@@ -12,6 +12,9 @@
 --        inst claim it's important to seperate out these orphaned prof claims to not over count 
 --        inpatient visits.
 -----------------------------------------------------------------------------------------------------
+{{ config(
+    tags=["medical_claim"]
+) }}
 
 with encounter_combined as(
   select 
@@ -39,7 +42,7 @@ with encounter_combined as(
     ,mc.admit_type_description
     ,mc.discharge_disposition_code
     ,mc.discharge_disposition_description
-    ,mc.rendering_npi as physician_npi
+    ,mc.billing_npi as physician_npi
     ,cast(null as varchar) as location
     ,mc.facility_npi
     ,mc.ms_drg

@@ -1,68 +1,67 @@
 -------------------------------------------------------------------------------
 -- Author       Thu Xuan Vu
 -- Created      June 2022
--- Purpose      Create a crosswalk from encounter_id, to merge_claim_id (claim id after encounter type mapping), to original_claim_id (claim id from source).
+-- Purpose      Create a crosswalk from encounter_id to claim_id
 -- Notes        
 -------------------------------------------------------------------------------
 -- Modification History
---
+-- 09/28/2022 Thu Xuan Vu
+--      Changed references of merge_claim_id to claim_id
 -------------------------------------------------------------------------------
-
-/**  Encounter to institutional claim for merged claims  **/
+{{ config(
+    tags=["medical_claim"]
+) }}
+/** Institutional merged  **/
 
 select
   c.group_claim_id as encounter_id
-  ,c.merge_claim_id
-  ,d.original_claim_id
+  ,d.claim_id
+  ,'inst merge' as merge_type
 from {{ ref('encounter_type_mapping')}} d
 inner join {{ ref('inst_merge_crosswalk')}} c
-    on d.merge_claim_id = c.merge_claim_id
+    on d.claim_id = c.claim_id
 
 union
 
-/**  Encounter to institutional claim for nonmerged claims  **/
+/**  Institutional non-merged  **/
 
 select
-  d.merge_claim_id as encounter_id
-  ,d.merge_claim_id
-  ,d.original_claim_id
-from {{ ref('encounter_type_mapping')}} d
-left join {{ ref('inst_merge_crosswalk')}} c
-    on d.merge_claim_id = c.merge_claim_id
-where d.claim_type = 'I'
-and c.merge_claim_id is null
+  c.encounter_id
+  ,c.encounter_id as claim_id
+  ,'inst nonmerge' as merge_type
+from  {{ ref('inst_encounter_nonmerge')}} c
+
 
 union
-/**  Encounter to professional claims for merged claims  **/
-select 
-  d.merge_claim_id as encounter_id
-  ,d.merge_claim_id
-  ,d.original_claim_id
-from {{ ref('encounter_type_mapping')}} d
-inner join {{ ref('prof_merge_crosswalk')}} c
-    on d.merge_claim_id = c.merge_claim_id
-
-union
-/**  Encounter to professional claim for nonmerged claims  **/
-select 
-  d.merge_claim_id as encounter_id
-  ,d.merge_claim_id
-  ,d.original_claim_id
-from {{ ref('encounter_type_mapping')}} d
-left join {{ ref('prof_merge_crosswalk')}} c
-    on d.merge_claim_id = c.merge_claim_id
-left join {{ ref('prof_inst_encounter_crosswalk')}} i
-    on i.merge_claim_id = d.merge_claim_id
-where d.claim_type in ('P','DME')
-and c.merge_claim_id is null
-and i.merge_claim_id is null
-
-union
-/**  Encounter to professional claim for claims that link to merged claims  **/
+/**  Professional linked to institutional  **/
 select 
   encounter_id
-  ,merge_claim_id
-  ,original_claim_id
+  ,claim_id
+  ,'prof linked to inst merge' as merge_type
 from {{ ref('prof_inst_encounter_crosswalk')}}
+
+union
+
+/** Professional merged  **/
+select 
+  d.encounter_id
+  ,d.claim_id
+  ,'prof merge' as merge_type
+from {{ ref('prof_merge_final')}} d
+
+union
+/**  Professional nonmerged claims  **/
+select 
+  d.claim_id as encounter_id
+  ,d.claim_id
+    ,'prof nonmerge' as merge_type
+from {{ ref('encounter_type_mapping')}} d
+left join {{ ref('prof_merge_final')}} c
+    on d.claim_id = c.claim_id
+left join {{ ref('prof_inst_encounter_crosswalk')}} i
+    on i.claim_id = d.claim_id
+where d.claim_type in ('P','DME')
+and c.claim_id is null
+and i.claim_id is null
 
 

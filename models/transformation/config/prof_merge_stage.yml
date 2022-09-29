@@ -1,8 +1,0 @@
-version: 2
-
-models:
-    - name: prof_merge_stage
-      description: List of institutional claims pairs that are eligable for merging.
-      config:
-        database: "{{ var('output_database')}}"
-        schema: "{{ var('output_schema')}}"

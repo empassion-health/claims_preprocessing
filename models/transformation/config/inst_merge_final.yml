@@ -6,9 +6,14 @@ models:
       config:
         database: "{{ var('output_database')}}"
         schema: "{{ var('output_schema')}}"
-      tests:
-         - unique:
-             column_name: "claim_id_b"
       columns:
-        - name: patient_id  
-          description: unique identifier
+        - name: claim_id_a
+          description:  One claim in a pair that are part of the same encounter
+          tests:
+            - unique
+            - not_null
+        - name: claim_id_b
+          description:  One claim in a pair that are part of the same encounter
+          tests:
+            - unique
+            - not_null

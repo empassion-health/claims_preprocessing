@@ -7,8 +7,12 @@
 --                  facility NPIs.  Since no other data can help determine which inst encounter the prof claim belongs to, it is not crosswalked.
 -------------------------------------------------------------------------------
 -- Modification History
---
+-- 09/28/2022 Thu Xuan Vu
+--      Changed references of merge_claim_id to claim_id
 -------------------------------------------------------------------------------
+{{ config(
+    tags=["medical_claim"]
+) }}
 
 with prof_inst_encounter_crosswalk as(
   select 
@@ -17,8 +21,7 @@ with prof_inst_encounter_crosswalk as(
       ,f.encounter_type
       ,f.encounter_start_date
       ,f.encounter_end_date
-      ,d.merge_claim_id
-      ,d.original_claim_id
+      ,d.claim_id
       ,d.claim_start_date
       ,d.claim_end_date
       ,d.encounter_type
@@ -46,7 +49,7 @@ with prof_inst_encounter_crosswalk as(
                   else 0
        end as link_flag
   from {{ ref('inst_encounter_final')}} f
-  inner join {{ ref('encounter_distinct')}} d
+  inner join {{ ref('encounter_type_mapping')}} d
       on d.patient_id = f.patient_id
       and d.claim_start_date >= f.encounter_start_date
       and d.claim_start_date <= f.encounter_end_date
@@ -55,20 +58,19 @@ with prof_inst_encounter_crosswalk as(
   )
 , ambigous_match as(
   select 
-  	merge_claim_id
+  	claim_id
   from prof_inst_encounter_crosswalk
   where link_flag = 1
-  group by merge_claim_id
+  group by claim_id
   having count(*) > 1
 )
 
 select 
 	encounter_id
-    ,c.merge_claim_id
-    ,c.original_claim_id
+    ,c.claim_id
     ,c.patient_id
 from prof_inst_encounter_crosswalk c
 left join ambigous_match a
-	on c.merge_claim_id = a.merge_claim_id
-where a.merge_claim_id is null
+	on c.claim_id = a.claim_id
+where a.claim_id is null
 and c.link_flag = 1

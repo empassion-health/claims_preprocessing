@@ -8,7 +8,7 @@ models:
         schema: "{{ var('output_schema')}}"
       columns:
         - name: encounter_id
-          description: Unique identifier
+          description: Unique identifier and primary key
           tests:
             - unique
             - not_null

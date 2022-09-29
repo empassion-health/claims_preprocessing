@@ -7,6 +7,9 @@
 -- Modification History
 --
 -------------------------------------------------------------------------------
+{{ config(
+    tags=["eligibility","core"]
+) }}
 
 with patient_stage as(
     select
