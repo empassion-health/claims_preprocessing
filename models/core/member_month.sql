@@ -6,6 +6,9 @@
 -- Modification History
 --
 -------------------------------------------------------------------------------
+{{ config(
+    tags=["eligibility","core"]
+) }}
 
 select
 	cast(patient_id as varchar) as patient_id

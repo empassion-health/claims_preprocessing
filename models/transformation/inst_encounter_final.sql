@@ -6,6 +6,9 @@
 -- Modification History
 --
 -------------------------------------------------------------------------------
+{{ config(
+    tags=["medical_claim"]
+) }}
 
 select
    cast(encounter_id as varchar) as encounter_id

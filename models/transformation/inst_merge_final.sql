@@ -9,7 +9,10 @@
 -- Modification History
 --
 -------------------------------------------------------------------------------
- 
+ {{ config(
+    tags=["medical_claim"]
+) }}
+
 with master_claim_id as(
     select 
         lag(claim_id_b,1) over (partition by patient_id, encounter_type order by row_sequence) as previous_claim

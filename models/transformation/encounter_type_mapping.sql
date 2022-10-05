@@ -1,20 +1,39 @@
--------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
 -- Author       Thu Xuan Vu
 -- Created      May 2022
--- Purpose      Map claims to encounter types at the line level.  Institutional claims use rev code or bill type, professional claims use place of service.
--- Notes        Revenue code 001 is removed to avoid miscalculation of paid amount.  If a claim is split between encounter types, revenue center 001 will map to one.
---              That will add excess dollars.
--------------------------------------------------------------------------------
+-- Purpose      Map claims to encounter types at the line level.  Institutional claims use rev code or 
+--                  bill type, professional claims use place of service.
+-- Notes
+---------------------------------------------------------------------------------------------------------
 -- Modification History
 --
 -- 06/15/2022  Thu Xuan Vu
 --      Fixed spelling of treatment and psychiatric
--------------------------------------------------------------------------------
+-- 09/27/2022  Thu Xuan Vu
+--      Changed maping to the claim level.
+--      Using MIN() since not all claims may start with 1
+--      Removed the creation of a new encounter ID since a claim can no longer split into 
+--          different encounter types.
+--      Revenue code 001 no longer omitted since it cannot be split into a seperate claim
+--      Added row_number for downstream ordering
+--      Added billing_npi for use in professional merging
+---------------------------------------------------------------------------------------------------------
+{{ config(
+    tags=["medical_claim"]
+) }}
 
-with encounter_crosswalk as(
+with claim_header as(
+    select 
+        claim_id
+        ,min(claim_line_number) as claim_line_number
+    from {{ var('medical_claim')}}
+    group by
+        claim_id
+)
+, encounter_type_mapping as(
   select
     case
-  		when revenue_center_code in ('0450','0459') then 'emergency department'
+      when revenue_center_code in ('0450','0459') then 'emergency department'
       when left(bill_type_code,2) = '11' then 'acute inpatient'
       when left(bill_type_code,2) = '12' then 'acute inpatient'
       when left(bill_type_code,2) = '13' then 'outpatient'
@@ -128,37 +147,41 @@ with encounter_crosswalk as(
       when place_of_service_code = '99' then 'other'
             else 'unmapped'
     end as encounter_type
-    ,claim_type
-    ,claim_id
-    ,claim_line_number
-    ,patient_id
-    ,claim_start_date
-    ,claim_end_date
-    ,discharge_disposition_code
-    ,facility_npi
-    ,cast(paid_amount as numeric(38,4)) as paid_amount
-    ,cast(charge_amount as numeric(38,4)) as charge_amount
-    ,bill_type_code
-    ,revenue_center_code
-    ,place_of_service_code
-from {{ var('medical_claim')}}
-where ifnull(revenue_center_code,'') <> '0001'
+    ,med.claim_type
+    ,med.claim_id
+    ,med.claim_line_number
+    ,med.patient_id
+    ,med.claim_start_date
+    ,med.claim_end_date
+    ,med.discharge_disposition_code
+    ,med.billing_npi
+    ,med.facility_npi
+    ,cast(med.paid_amount as numeric(38,4)) as paid_amount
+    ,cast(med.charge_amount as numeric(38,4)) as charge_amount
+    ,med.bill_type_code
+    ,med.revenue_center_code
+    ,med.place_of_service_code
+  from {{ var('medical_claim')}} med
+  inner join claim_header head
+    on med.claim_id = head.claim_id
+    and med.claim_line_number = head.claim_line_number
 ) 
   
-  select
-    cast(claim_type as varchar) as claim_type
-  	,cast(md5(claim_id||encounter_type) as varchar) as merge_claim_id
-    ,cast(claim_id as varchar) as original_claim_id
-    ,cast(claim_line_number as int) as claim_line_number
-    ,cast(patient_id as varchar) as patient_id
-    ,cast(encounter_type as varchar) as encounter_type
-    ,cast(claim_start_date as date) as claim_start_date
-    ,cast(claim_end_date as date) as claim_end_date
-    ,cast(discharge_disposition_code as varchar) as discharge_disposition_code
-    ,cast(facility_npi as varchar) as facility_npi
-    ,cast(paid_amount as numeric(38,2)) as paid_amount
-    ,cast(charge_amount as numeric(38,2)) as charge_amount
-    ,cast(bill_type_code as varchar) as bill_type_code
-    ,cast(revenue_center_code as varchar) as revenue_center_code
-    ,cast(place_of_service_code as varchar) as place_of_service_code
-  from encounter_crosswalk
+select
+  cast(claim_id as varchar) as claim_id
+  ,cast(claim_line_number as int) as claim_line_number
+  ,cast(claim_type as varchar) as claim_type
+  ,cast(patient_id as varchar) as patient_id
+  ,cast(encounter_type as varchar) as encounter_type
+  ,cast(claim_start_date as date) as claim_start_date
+  ,cast(claim_end_date as date) as claim_end_date
+  ,cast(discharge_disposition_code as varchar) as discharge_disposition_code
+  ,cast(billing_npi as int) as billing_npi
+  ,cast(facility_npi as varchar) as facility_npi
+  ,cast(paid_amount as numeric(38,2)) as paid_amount
+  ,cast(charge_amount as numeric(38,2)) as charge_amount
+  ,cast(bill_type_code as varchar) as bill_type_code
+  ,cast(revenue_center_code as varchar) as revenue_center_code
+  ,cast(place_of_service_code as varchar) as place_of_service_code
+  ,cast(row_number() over (partition by patient_id, encounter_type, claim_type order by claim_start_date, claim_end_date) as int) as row_sequence
+from encounter_type_mapping

@@ -6,6 +6,9 @@
 -- Modification History
 --
 -------------------------------------------------------------------------------
+{{ config(
+    tags=["medical_claim","core"]
+) }}
 
 with condition_code as(
   select

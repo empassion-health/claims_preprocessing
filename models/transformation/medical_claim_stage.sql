@@ -5,10 +5,15 @@
 -- Notes        Created this table to allow for validation and as an easier way to pass through claim fields from input layer to output layer.
 -------------------------------------------------------------------------------
 -- Modification History
---
+-- 09/28/2022 Thu Xuan Vu
+--      Changed references of merge_claim_id to claim_id
 -------------------------------------------------------------------------------
+{{ config(
+    tags=["medical_claim"]
+) }}
+
 select 
-  cast(c.merge_claim_id as varchar) as claim_id
+  cast(m.claim_id as varchar) as claim_id
   ,cast(m.claim_line_number as int) as claim_line_number
   ,cast(m.claim_type as varchar) as claim_type
   ,cast(c.encounter_id as varchar) as encounter_id
@@ -33,11 +38,11 @@ select
   ,cast(m.paid_amount as numeric(38,4)) as paid_amount
   ,cast(m.hcpcs_code as varchar) as hcpcs_code
   ,cast(m.hcpcs_modifier_1 as varchar) as hcpcs_modifier_1
-  ,cast(m.hcpcs_modifier_2 as varchar) as hcpcs_modifier_2
-  ,cast(m.hcpcs_modifier_3 as varchar) as hcpcs_modifier_3
-  ,cast(m.hcpcs_modifier_4 as varchar) as hcpcs_modifier_4
-  ,cast(m.hcpcs_modifier_5 as varchar) as hcpcs_modifier_5
-  ,cast(m.rendering_npi as varchar) as rendering_npi
+  --,cast(m.hcpcs_modifier_2 as varchar) as hcpcs_modifier_2
+  --,cast(m.hcpcs_modifier_3 as varchar) as hcpcs_modifier_3
+  --,cast(m.hcpcs_modifier_4 as varchar) as hcpcs_modifier_4
+  --,cast(m.hcpcs_modifier_5 as varchar) as hcpcs_modifier_5
+  --,cast(m.rendering_npi as varchar) as rendering_npi
   ,cast(m.billing_npi as varchar) as billing_npi
   ,cast(m.facility_npi as varchar) as facility_npi
   ,cast(m.ms_drg as varchar) as ms_drg
@@ -53,7 +58,7 @@ select
   ,cast(m.diagnosis_code_7 as varchar) as diagnosis_code_7
   ,cast(m.diagnosis_code_8 as varchar) as diagnosis_code_8
   ,cast(m.diagnosis_code_9 as varchar) as diagnosis_code_9
-  ,cast(m.diagnosis_code_10 as varchar) as diagnosis_code_10
+  /**,cast(m.diagnosis_code_10 as varchar) as diagnosis_code_10
   ,cast(m.diagnosis_code_11 as varchar) as diagnosis_code_11
   ,cast(m.diagnosis_code_12 as varchar) as diagnosis_code_12
   ,cast(m.diagnosis_code_13 as varchar) as diagnosis_code_13
@@ -93,9 +98,9 @@ select
   ,cast(m.diagnosis_poa_22 as varchar) as diagnosis_poa_22
   ,cast(m.diagnosis_poa_23 as varchar) as diagnosis_poa_23
   ,cast(m.diagnosis_poa_24 as varchar) as diagnosis_poa_24
-  ,cast(m.diagnosis_poa_25 as varchar) as diagnosis_poa_25
+  ,cast(m.diagnosis_poa_25 as varchar) as diagnosis_poa_25**/
   ,cast(m.diagnosis_code_type as varchar) as diagnosis_code_type
-  ,cast(m.procedure_code_type as varchar) as procedure_code_type
+ /** ,cast(m.procedure_code_type as varchar) as procedure_code_type
   ,cast(m.procedure_code_1 as varchar) as procedure_code_1
   ,cast(m.procedure_code_2 as varchar) as procedure_code_2
   ,cast(m.procedure_code_3 as varchar) as procedure_code_3
@@ -145,14 +150,13 @@ select
   ,cast(m.procedure_date_22 as varchar) as procedure_date_22
   ,cast(m.procedure_date_23 as varchar) as procedure_date_23
   ,cast(m.procedure_date_24 as varchar) as procedure_date_24
-  ,cast(m.procedure_date_25 as varchar) as procedure_date_25
+  ,cast(m.procedure_date_25 as varchar) as procedure_date_25**/
   ,cast('{{ var('source_name')}}' as varchar) as data_source
 from {{ var('medical_claim')}} m
 inner join {{ ref('encounter_type_mapping')}} e
-	on m.claim_id = e.original_claim_id
-    and m.claim_line_number = e.claim_line_number
+	on m.claim_id = e.claim_id
 inner join {{ ref('encounter_claim_crosswalk')}} c
-	on e.merge_claim_id = c.merge_claim_id
+	on e.claim_id = c.claim_id
 left join {{ ref('admit_type')}} at
 	on m.admit_type_code = at.admit_type_code
 left join {{ ref('admit_source')}} asrc

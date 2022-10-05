@@ -49,4 +49,5 @@ models:
     +materialized: table
     core:
       +materialized: table
-
+tests:
+  +severity: warn

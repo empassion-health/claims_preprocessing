@@ -7,6 +7,10 @@
 -- Modification History
 --
 -------------------------------------------------------------------------------
+{{ config(
+    tags=["medical_claim","core"]
+) }}
+
 
 with procedure_code as(
   select

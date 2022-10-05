@@ -7,6 +7,9 @@
 -- TXV 07/2022  Resolving bug that was omitting inst elemts (discharge disp, admit type)
 --              due to prof claim link and logic.
 -------------------------------------------------------------------------------
+{{ config(
+    tags=["medical_claim","core"]
+) }}
 
 select distinct
   coalesce(i.encounter_id, p.encounter_id) as encounter_id
