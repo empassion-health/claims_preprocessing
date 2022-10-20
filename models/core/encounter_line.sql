@@ -26,20 +26,19 @@ select
   ,cast(place_of_service_description as varchar) as place_of_service_description
   ,cast(revenue_center_code as varchar) as revenue_center_code
   ,cast(revenue_center_description as varchar) as revenue_center_description
-  ,cast(service_unit_quantity as int) as service_unit_quantity
   ,cast(paid_date as date) as paid_date
   ,cast(paid_amount as numeric(38,2)) as paid_amount
   ,cast(hcpcs_code as varchar) as hcpcs_code
   ,cast(hcpcs_modifier_1 as varchar) as hcpcs_modifier_1
-  /**,cast(hcpcs_modifier_2 as varchar) as hcpcs_modifier_2
+  ,cast(hcpcs_modifier_2 as varchar) as hcpcs_modifier_2
   ,cast(hcpcs_modifier_3 as varchar) as hcpcs_modifier_3
   ,cast(hcpcs_modifier_4 as varchar) as hcpcs_modifier_4
   ,cast(hcpcs_modifier_5 as varchar) as hcpcs_modifier_5
-  ,cast(rendering_npi as varchar) as rendering_npi**/
+  ,cast(rendering_npi as varchar) as rendering_npi
   ,cast(billing_npi as varchar) as billing_npi
   ,cast(facility_npi as varchar) as facility_npi
   ,cast(discharge_disposition_code as varchar) as discharge_disposition_code
   ,cast(discharge_disposition_description as varchar) as discharge_disposition_description
   ,cast(charge_amount as numeric(38,2)) as charge_amount
   ,cast(data_source as varchar) as data_source
-from {{ ref('medical_claim_stage')}}
+from {{ ref('encounter_line_stage')}}

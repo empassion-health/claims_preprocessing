@@ -7,19 +7,19 @@ config-version: 2
 profile: 'default'
 
 vars:
-  source_name: cclf                     # configuration required
+  source_name: uhc                     # configuration required
                                         # name describing the dataset feeding this project
 
-  input_database: tuva                  # configuration required
+  input_database: transformed_data                  # configuration required
                                         # name of the database where sources feeding this project are stored
 
-  input_schema: claims_input            # configuration required
+  input_schema: dbt_thu_claims_input            # configuration required
                                         # name of the schema where sources feeding this project is stored
 
-  output_database: tuva                 # configuration required
+  output_database: transformed_data                 # configuration required
                                         # name of the database where output of this project should be written
 
-  output_schema: claims_preprocessing   # configuration required
+  output_schema: tuva_core   # configuration required
                                         # name of the schema where output of this project should be written
                                         
   medical_claim: "{{ source(var('source_name'),'medical_claim') }}"

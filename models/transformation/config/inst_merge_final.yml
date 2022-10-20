@@ -9,11 +9,5 @@ models:
       columns:
         - name: claim_id_a
           description:  One claim in a pair that are part of the same encounter
-          tests:
-            - unique
-            - not_null
         - name: claim_id_b
           description:  One claim in a pair that are part of the same encounter
-          tests:
-            - unique
-            - not_null
