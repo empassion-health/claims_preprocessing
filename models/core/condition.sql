@@ -19,7 +19,7 @@ with condition_code as(
     ,diagnosis_code_type as code_type
     ,code
     ,cast(replace(diagnosis_rank,'DIAGNOSIS_CODE_') as int) as diagnosis_rank
-  from {{ ref('medical_claim_stage')}}
+  from {{ ref('encounter_line_stage')}}
   unpivot(
     code for diagnosis_rank in (diagnosis_code_1
                                 ,diagnosis_code_2
@@ -53,7 +53,7 @@ with condition_code as(
     claim_id
     ,present_on_admit
     ,cast(replace(diagnosis_rank,'DIAGNOSIS_POA_') as int) as diagnosis_rank
-  from {{ ref('medical_claim_stage')}}
+  from {{ ref('encounter_line_stage')}}
   unpivot(
     present_on_admit for diagnosis_rank in (diagnosis_poa_1
                                             ,diagnosis_poa_2
@@ -97,7 +97,7 @@ select distinct
   ,cast(dx.short_description as varchar) as description
   ,cast(c.diagnosis_rank as int) as diagnosis_rank
   ,cast(p.present_on_admit as varchar) as present_on_admit
-  ,cast('cclf' as varchar) as data_source
+  ,cast('{{ var('source_name')}}' as varchar) as data_source
 from condition_code c
 left join condition_poa p
   ON c.claim_id = p.claim_id

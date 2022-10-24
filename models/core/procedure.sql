@@ -20,7 +20,7 @@ with procedure_code as(
 	,procedure_code_type as code_type
 	,code
 	,cast(replace(procedure,'PROCEDURE_CODE_','') as int) as procedure_sequence
-  from {{ ref('medical_claim_stage')}}
+  from {{ ref('encounter_line_stage')}}
   unpivot(
     code for procedure in (procedure_code_1
 							,procedure_code_2
@@ -54,7 +54,7 @@ with procedure_code as(
     claim_id
     ,procedure_date
     ,cast(replace(procedure,'PROCEDURE_DATE_','') as int) as procedure_sequence
-  from {{ ref('medical_claim_stage')}}
+  from {{ ref('encounter_line_stage')}}
   unpivot(
     procedure_date for procedure in (procedure_date_1
                                             ,procedure_date_2

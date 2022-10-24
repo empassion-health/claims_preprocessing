@@ -33,16 +33,15 @@ select
   ,cast(at.description as varchar) as admit_type_description
   ,cast(m.admit_source_code as varchar) as admit_source_code
   ,cast(asrc.description as varchar) as admit_source_description
-  ,cast(m.service_unit_quantity as int) as service_unit_quantity 
   ,cast(m.paid_date as date) as paid_date
   ,cast(m.paid_amount as numeric(38,4)) as paid_amount
   ,cast(m.hcpcs_code as varchar) as hcpcs_code
   ,cast(m.hcpcs_modifier_1 as varchar) as hcpcs_modifier_1
-  --,cast(m.hcpcs_modifier_2 as varchar) as hcpcs_modifier_2
-  --,cast(m.hcpcs_modifier_3 as varchar) as hcpcs_modifier_3
-  --,cast(m.hcpcs_modifier_4 as varchar) as hcpcs_modifier_4
-  --,cast(m.hcpcs_modifier_5 as varchar) as hcpcs_modifier_5
-  --,cast(m.rendering_npi as varchar) as rendering_npi
+  ,cast(m.hcpcs_modifier_2 as varchar) as hcpcs_modifier_2
+  ,cast(m.hcpcs_modifier_3 as varchar) as hcpcs_modifier_3
+  ,cast(m.hcpcs_modifier_4 as varchar) as hcpcs_modifier_4
+  ,cast(m.hcpcs_modifier_5 as varchar) as hcpcs_modifier_5
+  ,cast(m.rendering_npi as varchar) as rendering_npi
   ,cast(m.billing_npi as varchar) as billing_npi
   ,cast(m.facility_npi as varchar) as facility_npi
   ,cast(m.ms_drg as varchar) as ms_drg
@@ -58,7 +57,7 @@ select
   ,cast(m.diagnosis_code_7 as varchar) as diagnosis_code_7
   ,cast(m.diagnosis_code_8 as varchar) as diagnosis_code_8
   ,cast(m.diagnosis_code_9 as varchar) as diagnosis_code_9
-  /**,cast(m.diagnosis_code_10 as varchar) as diagnosis_code_10
+  ,cast(m.diagnosis_code_10 as varchar) as diagnosis_code_10
   ,cast(m.diagnosis_code_11 as varchar) as diagnosis_code_11
   ,cast(m.diagnosis_code_12 as varchar) as diagnosis_code_12
   ,cast(m.diagnosis_code_13 as varchar) as diagnosis_code_13
@@ -98,9 +97,9 @@ select
   ,cast(m.diagnosis_poa_22 as varchar) as diagnosis_poa_22
   ,cast(m.diagnosis_poa_23 as varchar) as diagnosis_poa_23
   ,cast(m.diagnosis_poa_24 as varchar) as diagnosis_poa_24
-  ,cast(m.diagnosis_poa_25 as varchar) as diagnosis_poa_25**/
+  ,cast(m.diagnosis_poa_25 as varchar) as diagnosis_poa_25
   ,cast(m.diagnosis_code_type as varchar) as diagnosis_code_type
- /** ,cast(m.procedure_code_type as varchar) as procedure_code_type
+  ,cast(m.procedure_code_type as varchar) as procedure_code_type
   ,cast(m.procedure_code_1 as varchar) as procedure_code_1
   ,cast(m.procedure_code_2 as varchar) as procedure_code_2
   ,cast(m.procedure_code_3 as varchar) as procedure_code_3
@@ -150,12 +149,12 @@ select
   ,cast(m.procedure_date_22 as varchar) as procedure_date_22
   ,cast(m.procedure_date_23 as varchar) as procedure_date_23
   ,cast(m.procedure_date_24 as varchar) as procedure_date_24
-  ,cast(m.procedure_date_25 as varchar) as procedure_date_25**/
+  ,cast(m.procedure_date_25 as varchar) as procedure_date_25
   ,cast('{{ var('source_name')}}' as varchar) as data_source
 from {{ var('medical_claim')}} m
 inner join {{ ref('encounter_type_mapping')}} e
 	on m.claim_id = e.claim_id
-inner join {{ ref('encounter_claim_crosswalk')}} c
+left join {{ ref('encounter_claim_crosswalk')}} c
 	on e.claim_id = c.claim_id
 left join {{ ref('admit_type')}} at
 	on m.admit_type_code = at.admit_type_code

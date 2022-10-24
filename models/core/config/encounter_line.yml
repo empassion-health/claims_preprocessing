@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: medical_claim_stage
+    - name: encounter_line
       description: Claim line level detail
       config:
         database: "{{ var('output_database')}}"

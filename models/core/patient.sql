@@ -20,7 +20,7 @@ with patient_stage as(
         ,zip_code
         ,state
         ,deceased_flag
-        ,death_date
+        ,deceased_date
         ,row_number() over (partition by patient_id order by year DESC) as row_sequence
     from {{ var('eligibility')}}
 )
@@ -33,7 +33,7 @@ select
     ,cast(zip_code as varchar) as zip_code
     ,cast(state as varchar) as state
     ,cast(deceased_flag as int) as deceased_flag
-    ,cast(death_date as date) as death_date
+    ,cast(deceased_date as date) as death_date
     ,cast('{{ var('source_name')}}' as varchar) as data_source
 from patient_stage
 where row_sequence = 1
