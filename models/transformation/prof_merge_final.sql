@@ -22,7 +22,6 @@ with same_day_same_provider as(
     on map.claim_id = xwalk.claim_id
   where xwalk.claim_id is null
   and map.encounter_type not in ('inpatient psychiatric','inpatient rehabilitation','acute inpatient','skilled nursing facility','home health','hospice')
-  and map.patient_id ='17541795'
   group by 
       map.patient_id
       ,map.encounter_type
@@ -41,7 +40,6 @@ with same_day_same_provider as(
     on map.claim_id = xwalk.claim_id
   where xwalk.claim_id is null
   and map.encounter_type in ('inpatient psychiatric','inpatient rehabilitation','acute inpatient','skilled nursing facility','home health','hospice')
-  and map.patient_id ='17541795'
   group by 
       map.patient_id
       ,map.encounter_type
