@@ -49,11 +49,11 @@ with prof_inst_encounter_crosswalk as(
                   else 0
        end as link_flag
   from {{ ref('inst_encounter_final')}} f
-  inner join {{ ref('encounter_type_mapping')}} d
+  inner join {{ ref('encounter_type_union')}} d
       on d.patient_id = f.patient_id
       and d.claim_start_date >= f.encounter_start_date
       and d.claim_start_date <= f.encounter_end_date
-  where d.claim_type in ('P','DME')
+  where d.claim_type in ('P','DME','professional')
 
   )
 , ambigous_match as(

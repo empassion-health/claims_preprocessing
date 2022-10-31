@@ -20,7 +20,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: ['I','P']
+                values: ['I','P','professional','institutional']
         - name: claim_id
           description:  The source claim id
           tests:
