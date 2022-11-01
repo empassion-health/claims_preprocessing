@@ -7,6 +7,8 @@
 -- Modification History
 -- 09/28/2022 Thu Xuan Vu
 --      Changed references of merge_claim_id to claim_id
+-- 11/01/2022 Thu Xuan Vu
+--      Creating encounter id for vision and dental claims
 -------------------------------------------------------------------------------
 {{ config(
     tags=["medical_claim"]

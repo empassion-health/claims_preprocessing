@@ -1,10 +1,12 @@
 -------------------------------------------------------------------------------
 -- Author       Thu Xuan Vu
 -- Created      June 2022
--- Purpose      Populate diagnosis and present on admission for a patient using the claim sequence as diagnosis rank. 
+-- Purpose      Populate diagnosis and present on admission for a patient using
+--                the claim sequence as diagnosis rank. 
 -------------------------------------------------------------------------------
 -- Modification History
---
+-- 11/01/2022  Thu Xuan Vu
+--      Removed case statement to normalize dx code type.  Should be done at mapping.
 -------------------------------------------------------------------------------
 {{ config(
     tags=["medical_claim","core"]
@@ -87,13 +89,7 @@ select distinct
   ,cast(c.patient_id as varchar) as patient_id
   ,cast(c.condition_date as date) as condition_date
   ,cast('discharge diagnosis' as varchar) as condition_type
-  ,cast(case 
-    when c.code_type = '10'
-      then 'icd-10-cm'
-    when c.code_type = '9'
-      then 'icd-9-cm'
-    else c.code_type
-  end as varchar) as code_type
+  ,cast(c.code_type as varchar) as code_type
   ,cast(replace(c.code,'.','') as varchar) as code
   ,cast(dx.short_description as varchar) as description
   ,cast(c.diagnosis_rank as int) as diagnosis_rank

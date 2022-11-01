@@ -4,7 +4,8 @@
 -- Purpose      Populate medical claim line level detail.
 -------------------------------------------------------------------------------
 -- Modification History
---
+-- 11/01/2022 Thu Xuan Vu
+--    Updated table/model name to encounter_claim_line
 -------------------------------------------------------------------------------
 {{ config(
     tags=["medical_claim","core"]
