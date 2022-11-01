@@ -23,7 +23,7 @@ select
 from {{ ref('encounter_type_union')}} d
 left join {{ ref('inst_merge_crosswalk')}} c
     on d.claim_id = c.claim_id
-where d.claim_type in ('I','institutional')
+where d.claim_type in ('i','institutional')
 and c.claim_id is null
 group by 
   d.claim_id

@@ -1,3 +1,21 @@
+---------------------------------------------------------------------------------------------------------
+-- Author       Thu Xuan Vu
+-- Created      November 2022
+-- Purpose      Map claims to emergency department that match the following criteria:
+--              Institution
+--                1) Contains emergency department revenue code
+--                2) Does not contain room and board code on same claim
+--              Professional
+--                1) Place of service = 23
+-- Notes
+---------------------------------------------------------------------------------------------------------
+-- Modification History
+---------------------------------------------------------------------------------------------------------
+{{ config(
+    tags=["medical_claim"]
+) }}
+
+
 with claim_emergency_department_eligibility as(
   select distinct 
       claim_type

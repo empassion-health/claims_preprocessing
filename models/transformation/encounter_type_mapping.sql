@@ -19,6 +19,9 @@
 --      Added billing_npi for use in professional merging
 -- 10/14/2022 Thu Xuan Vu
 --      Added leading zero to place of service codes
+-- 11/01/2022 Thu Xuan Vu
+--      Added logic to omit claims that have been mapped by seperate logic (ED and Acute Inpatient)
+--      Casting claim_type as lower to accomodate case sensitive collation
 ---------------------------------------------------------------------------------------------------------
 {{ config(
     tags=["medical_claim"]
@@ -149,7 +152,7 @@ with claim_header as(
       when trim(med.place_of_service_code) = '99' then 'other'
             else 'unmapped'
     end as encounter_type
-    ,med.claim_type
+    ,lower(med.claim_type) as claim_type
     ,med.claim_id
     ,med.claim_line_number
     ,med.patient_id

@@ -10,6 +10,8 @@ models:
       tests:
         - unique:
             column_name: "(claim_id || '-' || claim_line_number)"
+            config:
+              severity: error
       columns:
         - name: claim_line_number
           description:  Number of the claim line
@@ -20,7 +22,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: ['I','P','professional','institutional']
+                values: ['d','i','p','v','dental','institutional','professional','vision']
         - name: claim_id
           description:  The source claim id
           tests:
@@ -43,13 +45,6 @@ models:
             - not_null
         - name: discharge_disposition_code
           description:  The discharge status of the patient at the time the claim was submitted.
-          tests:
-            - inst_discharge_disposition_code
-            - relationships:
-                to: ref('discharge_disposition')
-                field: discharge_disposition_code
-                config:
-                  severity: warn
         - name: facility_npi
           description:  The facility ID on the claim.  Does not have to be the NPI however it needs to be a consistent ID within the claim to ensure linking/merging.
           tests:
@@ -60,19 +55,6 @@ models:
             - inst_bill_type_code
         - name: revenue_center_code
           description:  The 4 digit revenue type code on the claim.  Should only be on institutional claims.  Must be 4 digits including leading zeros.
-          tests:
-            - inst_revenue_center_code
-            - relationships:
-                to: ref('revenue_center_code')
-                field: revenue_center_code
-                config:
-                  severity: warn
         - name: place_of_service_code
           description:  The 2 digit place of service code on the claim.  Should only appear on professional claims.  Must be 2 digits including leading zero.
-          tests:
-            - prof_place_of_service_code
-            - relationships:
-                to: ref('place_of_service')
-                field: place_of_service_code
-                config:
-                  severity: warn
+

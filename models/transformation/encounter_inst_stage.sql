@@ -40,7 +40,7 @@ with encounter_combined as(
     ,row_number() over (partition by mc.encounter_id order by mc.claim_line_number, mc.claim_start_date) as row_sequence_first
     ,row_number() over (partition by mc.encounter_id order by mc.claim_line_number, mc.claim_end_date) as row_sequence_last
   from {{ ref('encounter_claim_line_stage')}} mc
-  where claim_type in ('I','institutional')
+  where claim_type in ('i','institutional')
 )
 
 select distinct

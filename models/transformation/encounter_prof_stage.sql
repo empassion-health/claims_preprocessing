@@ -50,7 +50,7 @@ with encounter_combined as(
     ,row_number() over (partition by mc.encounter_id order by mc.claim_line_number, mc.claim_start_date) as row_sequence_first
     ,row_number() over (partition by mc.encounter_id order by mc.claim_line_number, mc.claim_end_date) as row_sequence_last
   from {{ ref('encounter_claim_line_stage')}} mc
-  where claim_type in ('P','DME','professional','vision','dental')
+  where claim_type in ('p','dme','professional','vision','dental')
 )
 
 select distinct

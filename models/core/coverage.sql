@@ -10,7 +10,7 @@
     tags=["eligibility","core"]
 ) }}
 
-select 
+select distinct
     cast(patient_id as varchar) as patient_id
     ,enrollment_start_date as coverage_start_date
     ,enrollment_end_date as coverage_end_date

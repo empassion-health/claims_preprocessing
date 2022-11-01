@@ -1,3 +1,22 @@
+---------------------------------------------------------------------------------------------------------
+-- Author       Thu Xuan Vu
+-- Created      November 2022
+-- Purpose      Map claims to acute inpatient that match the following criteria:
+--              Institution
+--                1) Contains room and board revenue code
+--                2) Bill type code starts with 1 (hospital), 4(relgious non-medical), 8 (CAH/ASC)
+--                3) MS-DRG is valid
+--              Professional
+--                1) Place of service = 21
+-- Notes
+---------------------------------------------------------------------------------------------------------
+-- Modification History
+---------------------------------------------------------------------------------------------------------
+{{ config(
+    tags=["medical_claim"]
+) }}
+
+
 with claim_acute_inpatient_eligibility as(
   select distinct 
       claim_type  
