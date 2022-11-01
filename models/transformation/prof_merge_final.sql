@@ -23,7 +23,10 @@ with same_day_same_provider as(
     on map.claim_id = xwalk.claim_id
   where xwalk.claim_id is null
   and map.encounter_type not in ('inpatient psychiatric','inpatient rehabilitation','acute inpatient','skilled nursing facility','home health','hospice')
+<<<<<<< HEAD
   and map.claim_type in ('P','professional')
+=======
+>>>>>>> 63533c752a9aee405a45d03f8c0600815899b4bf
   group by 
       map.patient_id
       ,map.encounter_type
@@ -44,7 +47,10 @@ with same_day_same_provider as(
     on map.claim_id = xwalk.claim_id
   where xwalk.claim_id is null
   and map.encounter_type in ('inpatient psychiatric','inpatient rehabilitation','acute inpatient','skilled nursing facility','home health','hospice')
+<<<<<<< HEAD
   and map.claim_type in ('P','professional')
+=======
+>>>>>>> 63533c752a9aee405a45d03f8c0600815899b4bf
   group by 
       map.patient_id
       ,map.encounter_type
