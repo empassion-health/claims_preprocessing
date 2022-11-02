@@ -17,17 +17,14 @@
 
 
 with claim_emergency_department_eligibility as(
-  select distinct 
+  select 
       claim_type
-    , max(med.revenue_center_code) as revenue_center_code
-    , max(bill_type_code) as bill_type_code
-    , max(ms_drg) as ms_drg
+    , med.revenue_center_code
+    , bill_type_code
+    , ms_drg
     , claim_id
   from {{ var('medical_claim')}} med
   where med.revenue_center_code in ('0450','0451','0452','0459','0981')
-  group by 
-    claim_type
-    , claim_id
 )
 , room_and_board_claims as(
   select 
@@ -64,7 +61,7 @@ where r.claim_id is null
 
 union all 
 
-select distinct
+select
       med.claim_type
     , 'emergency department' as encounter_type
     , null as revenue_center_code

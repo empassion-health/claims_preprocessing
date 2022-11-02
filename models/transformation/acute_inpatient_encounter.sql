@@ -18,12 +18,12 @@
 
 
 with claim_acute_inpatient_eligibility as(
-  select distinct 
-      claim_type  
-    , max(med.revenue_center_code) as revenue_center_code
-    , max(bill_type_code) as bill_type_code
-    , max(ms_drg) as ms_drg
-    , claim_id
+  select 
+      med.claim_type
+    , med.claim_id
+    , med.revenue_center_code
+    , med.bill_type_code
+    , med.ms_drg
   from {{ var('medical_claim')}} med
   where med.revenue_center_code in ('0100','0101','0110','0111','0112','0113','0114','0116','0117','0118','0119'
   ,'0120','0121','0122','0123','0124','0126','0127','0128','0129','0130','0131','0132','0133','0134'
@@ -33,9 +33,6 @@ with claim_acute_inpatient_eligibility as(
   ,'0204','0206','0207','0208','0209','0210','0211','0212','0213','0214','0219','1000','1001','1002')
   and left(try_cast(bill_type_code as int),1) in (1,4,8)
   and ms_drg in (select code from {{ source('tuva_terminology','ms_drg')}})
-  group by 
-    claim_type
-    , claim_id
 )
 select
     claim_type
@@ -53,7 +50,7 @@ inner join {{ source('tuva_terminology','revenue_center_code')}} rev
 
  union all
 
- select distinct
+ select
       claim_type
     , 'acute inpatient' as encounter_type
     , null as revenue_center_code
