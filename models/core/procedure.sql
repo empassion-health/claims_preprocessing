@@ -20,7 +20,7 @@ with procedure_code as(
 	,procedure_code_type as code_type
 	,code
 	,cast(replace(procedure,'PROCEDURE_CODE_','') as int) as procedure_sequence
-  from {{ ref('encounter_line_stage')}}
+  from {{ ref('encounter_claim_line_stage')}}
   unpivot(
     code for procedure in (procedure_code_1
 							,procedure_code_2
@@ -54,7 +54,7 @@ with procedure_code as(
     claim_id
     ,procedure_date
     ,cast(replace(procedure,'PROCEDURE_DATE_','') as int) as procedure_sequence
-  from {{ ref('encounter_line_stage')}}
+  from {{ ref('encounter_claim_line_stage')}}
   unpivot(
     procedure_date for procedure in (procedure_date_1
                                             ,procedure_date_2
@@ -103,6 +103,6 @@ left join procedure_date d
   AND c.procedure_sequence = d.procedure_sequence
 inner join {{ ref('encounter')}} e 
   on c.encounter_id = e.encounter_id
-left join {{ ref('icd_10_pcs')}} px
+left join {{ source('tuva_terminology','icd_10_pcs')}} px
   on c.code = icd_10_pcs
   and c.code_type = 0

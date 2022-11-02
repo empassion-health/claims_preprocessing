@@ -21,7 +21,7 @@ select
   ,sum(paid_amount) as paid_amount
   ,sum(charge_amount) as charge_amount
 from {{ ref('inst_merge_crosswalk')}} mc
-inner join {{ ref('encounter_type_mapping')}} d
+inner join {{ ref('encounter_type_union')}} d
   on mc.claim_id = d.claim_id
 group by 
   mc.group_claim_id

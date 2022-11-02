@@ -19,9 +19,9 @@ with patient_stage as(
         ,race
         ,zip_code
         ,state
-        ,deceased_flag
-        ,deceased_date
-        ,row_number() over (partition by patient_id order by year DESC) as row_sequence
+        ,death_flag as deceased_flag
+        ,death_date as deceased_date
+        ,row_number() over (partition by patient_id order by enrollment_end_date DESC) as row_sequence
     from {{ var('eligibility')}}
 )
 

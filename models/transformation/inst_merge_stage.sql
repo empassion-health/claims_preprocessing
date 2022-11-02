@@ -33,8 +33,8 @@ with previous_claim as(
     ,lag(facility_npi) over (partition by patient_id, encounter_type order by row_sequence) as previous_facility_npi
     ,facility_npi
     ,row_sequence
-  from {{ ref('encounter_type_mapping')}}
-  where claim_type = 'I'
+  from {{ ref('encounter_type_union')}}
+  where claim_type in ('i','institutional')
   and encounter_type in ('hospice','acute inpatient','skilled nursing facility','home health')
 )
 ,merge_criteria as(

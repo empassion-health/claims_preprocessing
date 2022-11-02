@@ -23,7 +23,7 @@ with encounter_combined as(
     ,max(claim_end_date) as encounter_end_date
     ,sum(cast(paid_amount as numeric(38,2))) as paid_amount
     ,sum(charge_amount) as charge_amount
-  from {{ ref('encounter_line_stage')}} mc
+  from {{ ref('encounter_claim_line_stage')}} mc
   group by
       encounter_id
 )
@@ -49,8 +49,8 @@ with encounter_combined as(
     ,cast('{{ var('source_name')}}' as varchar) as data_source
     ,row_number() over (partition by mc.encounter_id order by mc.claim_line_number, mc.claim_start_date) as row_sequence_first
     ,row_number() over (partition by mc.encounter_id order by mc.claim_line_number, mc.claim_end_date) as row_sequence_last
-  from {{ ref('encounter_line_stage')}} mc
-  where claim_type in ('P','DME')
+  from {{ ref('encounter_claim_line_stage')}} mc
+  where claim_type in ('p','dme','professional','vision','dental')
 )
 
 select distinct

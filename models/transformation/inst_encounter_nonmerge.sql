@@ -20,10 +20,10 @@ select
     ,max(d.claim_end_date) as encounter_end_date
     ,sum(paid_amount) as paid_amount
     ,sum(charge_amount) as charge_amount
-from {{ ref('encounter_type_mapping')}} d
+from {{ ref('encounter_type_union')}} d
 left join {{ ref('inst_merge_crosswalk')}} c
     on d.claim_id = c.claim_id
-where d.claim_type = 'I'
+where d.claim_type in ('i','institutional')
 and c.claim_id is null
 group by 
   d.claim_id

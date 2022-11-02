@@ -7,6 +7,8 @@
 -- Modification History
 -- 09/28/2022 Thu Xuan Vu
 --      Changed references of merge_claim_id to claim_id
+-- 11/01/2022 Thu Xuan Vu
+--      Creating encounter id for vision and dental claims
 -------------------------------------------------------------------------------
 {{ config(
     tags=["medical_claim"]
@@ -17,7 +19,7 @@ select
   c.group_claim_id as encounter_id
   ,d.claim_id
   ,'inst merge' as merge_type
-from {{ ref('encounter_type_mapping')}} d
+from {{ ref('encounter_type_union')}} d
 inner join {{ ref('inst_merge_crosswalk')}} c
     on d.claim_id = c.claim_id
 
@@ -55,13 +57,23 @@ select
   d.claim_id as encounter_id
   ,d.claim_id
     ,'prof nonmerge' as merge_type
-from {{ ref('encounter_type_mapping')}} d
+from {{ ref('encounter_type_union')}} d
 left join {{ ref('prof_merge_final')}} c
     on d.claim_id = c.claim_id
 left join {{ ref('prof_inst_encounter_crosswalk')}} i
     on i.claim_id = d.claim_id
-where d.claim_type in ('P','DME')
+where d.claim_type in ('p','dme','professional')
 and c.claim_id is null
 and i.claim_id is null
+
+union
+/**  Professional nonmerged claims  **/
+select 
+  d.claim_id as encounter_id
+  ,d.claim_id
+  ,'other claim type nonmerge' as merge_type
+from {{ ref('encounter_type_union')}} d
+where d.claim_type in ('v','d','vision','dental')
+
 
 
