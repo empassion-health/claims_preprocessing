@@ -6,3 +6,9 @@ models:
       config:
         database: "{{ var('output_database')}}"
         schema: "{{ var('output_schema')}}"
+      columns:
+        - name: claim_id
+          description: Claim id from data source and primary key
+          tests:
+            - unique
+            - not_null
