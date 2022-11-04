@@ -38,6 +38,7 @@ with claim_header as(
 
   select
     case
+      when left(trim(med.bill_type_code),2) = '89' and med.revenue_center_code = '0570' then 'home health'
       when left(trim(med.bill_type_code),2) = '11' then 'other'
       when left(trim(med.bill_type_code),2) = '12' then 'other'
       when left(trim(med.bill_type_code),2) = '13' then 'outpatient'
@@ -147,7 +148,7 @@ with claim_header as(
       when trim(med.place_of_service_code) = '65' then 'dialysis center'
       when trim(med.place_of_service_code) = '71' then 'office visit'
       when trim(med.place_of_service_code) = '72' then 'office visit'
-      when trim(med.place_of_service_code) = '81' then 'other'
+      when trim(med.place_of_service_code) = '81' then 'specimen collection at lab'
       when trim(med.place_of_service_code) = '99' then 'other'
             else 'unmapped'
     end as encounter_type

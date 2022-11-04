@@ -2,7 +2,7 @@
 -- Author       Thu Xuan Vu
 -- Created      November 2022
 -- Purpose      Map claims to emergency department that match the following criteria:
---              Institution
+--              Institutional
 --                1) Contains emergency department revenue code
 --                2) Does not contain room and board code on same claim
 --              Professional
