@@ -8,7 +8,9 @@ models:
         schema: "{{ var('output_schema')}}"
       tests:
          - unique:
-             column_name: "(patient_id || payer || payer_type || coverage_start_date || coverage_end_date)"
+            column_name: "(patient_id || member_id || payer || payer_type || enrollment_start_date || enrollment_end_date)"
+            config:
+              severity: error
       columns:
         - name: patient_id  
           description: unique identifier
