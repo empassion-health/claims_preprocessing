@@ -19,7 +19,7 @@ vars:
   output_database: transformed_data                 # configuration required
                                         # name of the database where output of this project should be written
 
-  output_schema: tuva_core                   # configuration required
+  output_schema: dbt_thu_tuva_core                   # configuration required
                          
   medical_claim: "{{ source(var('source_name'),'medical_claim') }}"
   eligibility: "{{ source(var('source_name'),'eligibility') }}"

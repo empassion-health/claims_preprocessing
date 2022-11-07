@@ -34,7 +34,7 @@ with previous_claim as(
     ,facility_npi
     ,row_sequence
   from {{ ref('encounter_type_union')}}
-  where claim_type in ('i','institutional')
+  where claim_type = 'institutional'
   and encounter_type in ('hospice','acute inpatient','skilled nursing facility','home health')
 )
 ,merge_criteria as(

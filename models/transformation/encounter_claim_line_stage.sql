@@ -21,22 +21,28 @@ select
   ,cast(c.encounter_id as varchar) as encounter_id
   ,cast(e.encounter_type as varchar) as encounter_type
   ,cast(m.patient_id as varchar) as patient_id
+  ,cast(m.member_id as varchar) as member_id
   ,cast(m.claim_start_date as date) as claim_start_date
   ,cast(m.claim_end_date as date) as claim_end_date
   ,cast(m.claim_line_start_date as date) as claim_line_start_date
   ,cast(m.claim_line_end_date as date) as claim_line_end_date
-  ,cast(m.bill_type_code as varchar) as bill_type_code
-  ,cast(null as varchar) as bill_type_description
-  ,cast(m.place_of_service_code as varchar) as place_of_service_code 
-  ,cast(pos.description as varchar) as place_of_service_description
-  ,cast(m.revenue_center_code as varchar) as revenue_center_code
-  ,cast(rev.description as varchar) as revenue_center_description
-  ,cast(m.admit_type_code as varchar) as admit_type_code
-  ,cast(at.description as varchar) as admit_type_description
+  ,cast(m.admission_date as date) as admission_date
+  ,cast(m.discharge_date as date) as discharge_date
   ,cast(m.admit_source_code as varchar) as admit_source_code
   ,cast(asrc.description as varchar) as admit_source_description
-  ,cast(m.paid_date as date) as paid_date
-  ,cast(m.paid_amount as numeric(38,4)) as paid_amount
+  ,cast(m.admit_type_code as varchar) as admit_type_code
+  ,cast(at.description as varchar) as admit_type_description
+  ,cast(m.discharge_disposition_code as varchar) as discharge_disposition_code
+  ,cast(dd.description as varchar) as discharge_disposition_description
+  ,cast(m.place_of_service_code as varchar) as place_of_service_code 
+  ,cast(pos.description as varchar) as place_of_service_description  
+  ,cast(m.bill_type_code as varchar) as bill_type_code
+  ,cast(null as varchar) as bill_type_description
+  ,cast(m.ms_drg as varchar) as ms_drg_code
+  ,cast(msdrg.description as varchar) as ms_drg_description
+  ,cast(m.revenue_center_code as varchar) as revenue_center_code
+  ,cast(rev.description as varchar) as revenue_center_description
+  ,cast(m.service_unit_quantity as int) as service_unit_quantity
   ,cast(m.hcpcs_code as varchar) as hcpcs_code
   ,cast(m.hcpcs_modifier_1 as varchar) as hcpcs_modifier_1
   ,cast(m.hcpcs_modifier_2 as varchar) as hcpcs_modifier_2
@@ -46,9 +52,10 @@ select
   ,cast(m.rendering_npi as varchar) as rendering_npi
   ,cast(m.billing_npi as varchar) as billing_npi
   ,cast(m.facility_npi as varchar) as facility_npi
-  ,cast(m.ms_drg as varchar) as ms_drg
-  ,cast(m.discharge_disposition_code as varchar) as discharge_disposition_code
-  ,cast(dd.description as varchar) as discharge_disposition_description
+  ,cast(NULL as varchar) as facility_name
+  ,cast(m.paid_date as date) as paid_date
+  ,cast(m.paid_amount as numeric(38,4)) as paid_amount
+  ,cast(m.allowed_amount as numeric(38,4)) as allowed_amount
   ,cast(m.charge_amount as numeric(38,4)) as charge_amount
   ,cast(m.diagnosis_code_1 as varchar) as diagnosis_code_1
   ,cast(m.diagnosis_code_2 as varchar) as diagnosis_code_2
@@ -152,7 +159,7 @@ select
   ,cast(m.procedure_date_23 as varchar) as procedure_date_23
   ,cast(m.procedure_date_24 as varchar) as procedure_date_24
   ,cast(m.procedure_date_25 as varchar) as procedure_date_25
-  ,cast('{{ var('source_name')}}' as varchar) as data_source
+  ,cast(data_source as varchar) as data_source
 from {{ var('medical_claim')}} m
 inner join {{ ref('encounter_type_union')}} e
 	on m.claim_id = e.claim_id
@@ -168,4 +175,6 @@ left join {{ source('tuva_terminology','place_of_service')}} pos
 	on m.place_of_service_code = pos.code
 left join {{ source('tuva_terminology','discharge_disposition')}} dd
 	on m.discharge_disposition_code = dd.code
+left join {{ source('tuva_terminology','ms_drg')}} msdrg
+	on m.ms_drg = msdrg.code
 where ifnull(m.revenue_center_code,'') <> '0001'

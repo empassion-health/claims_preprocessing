@@ -15,12 +15,18 @@ with patient_stage as(
     select
         patient_id
         ,gender
-        ,birth_date
         ,race
-        ,zip_code
+        ,birth_date
+        ,death_date
+        ,death_flag
+        ,first_name
+        ,last_name
+        ,address
+        ,city
         ,state
-        ,death_flag as deceased_flag
-        ,death_date as deceased_date
+        ,zip_code
+        ,phone
+        ,data_source
         ,row_number() over (partition by patient_id order by enrollment_end_date DESC) as row_sequence
     from {{ var('eligibility')}}
 )
@@ -28,12 +34,17 @@ with patient_stage as(
 select
     cast(patient_id as varchar) as patient_id
     ,cast(gender as varchar) as gender
-    ,cast(birth_date as date) as birth_date
     ,cast(race as varchar) as race
-    ,cast(zip_code as varchar) as zip_code
+    ,cast(birth_date as date) as birth_date
+    ,cast(death_date as date) as death_date
+    ,cast(death_flag as int) as death_flag
+    ,cast(first_name as varchar) as first_name
+    ,cast(last_name as varchar) as last_name
+    ,cast(address as varchar) as address
+    ,cast(city as varchar) as city
     ,cast(state as varchar) as state
-    ,cast(deceased_flag as int) as deceased_flag
-    ,cast(deceased_date as date) as death_date
-    ,cast('{{ var('source_name')}}' as varchar) as data_source
+    ,cast(zip_code as varchar) as zip_code
+    ,cast(phone as varchar) as phone
+    ,cast(data_source as varchar) as data_source
 from patient_stage
 where row_sequence = 1

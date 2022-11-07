@@ -1,8 +1,8 @@
 version: 2
 
 models:
-    - name: coverage
-      description: Coverage details
+    - name: eligibility
+      description: eligibility details
       config:
         database: "{{ var('output_database')}}"
         schema: "{{ var('output_schema')}}"

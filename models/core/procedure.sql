@@ -20,6 +20,8 @@ with procedure_code as(
 	,procedure_code_type as code_type
 	,code
 	,cast(replace(procedure,'PROCEDURE_CODE_','') as int) as procedure_sequence
+  ,billing_npi as practioner_npi
+  ,data_source
   from {{ ref('encounter_claim_line_stage')}}
   unpivot(
     code for procedure in (procedure_code_1
@@ -87,22 +89,15 @@ select distinct
 	cast(c.encounter_id as varchar) as encounter_id
 	,cast(c.patient_id as varchar) as patient_id
 	,cast(d.procedure_date as date) as procedure_date
-	,cast(case
-      when c.code_type = '0'
-        then 'icd-10-pcs'
-      when c.code_type = '9'
-        then 'icd-9-pcs'
-  end as varchar) as code_type
+	,cast(c.code_type as varchar) as code_type
 	,cast(c.code as varchar) as code
 	,cast(px.short_description as varchar) as description
-	,cast(e.physician_npi as varchar) as physician_npi
-	,cast('{{ var('source_name')}}' as varchar) as data_source
+	,cast(c.practioner_npi as varchar) as practioner_npi
+	,cast(c.data_source as varchar) as data_source
 from procedure_code c
 left join procedure_date d
   ON c.claim_id = d.claim_id
   AND c.procedure_sequence = d.procedure_sequence
-inner join {{ ref('encounter')}} e 
-  on c.encounter_id = e.encounter_id
 left join {{ source('tuva_terminology','icd_10_pcs')}} px
   on c.code = icd_10_pcs
   and c.code_type = 0
