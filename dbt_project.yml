@@ -10,16 +10,16 @@ vars:
   source_name: cclf                     # configuration required
                                         # name describing the dataset feeding this project
 
-  input_database: transformed_data                  # configuration required
+  input_database: tuva                  # configuration required
                                         # name of the database where sources feeding this project are stored
 
-  input_schema: tuva_claims_input            # configuration required
+  input_schema: claims_input            # configuration required
                                         # name of the schema where sources feeding this project is stored
 
-  output_database: transformed_data                 # configuration required
+  output_database: tuva                 # configuration required
                                         # name of the database where output of this project should be written
 
-  output_schema: dbt_thu_tuva_core                   # configuration required
+  output_schema: core                   # configuration required
                          
   medical_claim: "{{ source(var('source_name'),'medical_claim') }}"
   eligibility: "{{ source(var('source_name'),'eligibility') }}"
