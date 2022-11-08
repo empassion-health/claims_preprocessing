@@ -38,7 +38,7 @@ select
   ,cast(pos.description as varchar) as place_of_service_description  
   ,cast(m.bill_type_code as varchar) as bill_type_code
   ,cast(null as varchar) as bill_type_description
-  ,cast(m.ms_drg as varchar) as ms_drg_code
+  ,cast(m.ms_drg_code as varchar) as ms_drg_code
   ,cast(msdrg.description as varchar) as ms_drg_description
   ,cast(m.revenue_center_code as varchar) as revenue_center_code
   ,cast(rev.description as varchar) as revenue_center_description
@@ -176,5 +176,5 @@ left join {{ source('tuva_terminology','place_of_service')}} pos
 left join {{ source('tuva_terminology','discharge_disposition')}} dd
 	on m.discharge_disposition_code = dd.code
 left join {{ source('tuva_terminology','ms_drg')}} msdrg
-	on m.ms_drg = msdrg.code
+	on m.ms_drg_code = msdrg.code
 where ifnull(m.revenue_center_code,'') <> '0001'
