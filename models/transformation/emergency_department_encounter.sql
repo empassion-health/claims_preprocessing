@@ -2,7 +2,7 @@
 -- Author       Thu Xuan Vu
 -- Created      November 2022
 -- Purpose      Map claims to emergency department that match the following criteria:
---              Institution
+--              Institutional
 --                1) Contains emergency department revenue code
 --                2) Does not contain room and board code on same claim
 --              Professional
@@ -21,7 +21,7 @@ with claim_emergency_department_eligibility as(
       claim_type
     , med.revenue_center_code
     , bill_type_code
-    , ms_drg
+    , ms_drg_code
     , claim_id
   from {{ var('medical_claim')}} med
   where med.revenue_center_code in ('0450','0451','0452','0459','0981')
@@ -48,7 +48,7 @@ select
     , rev.code as revenue_center_code
     , rev.description as revenue_center_description
     , e.bill_type_code
-    , e.ms_drg
+    , e.ms_drg_code
     , e.claim_id 
     , null as place_of_service_code
     , null as place_of_service_description
@@ -67,7 +67,7 @@ select
     , null as revenue_center_code
     , null as revenue_center_description
     , null as bill_type_code
-    , null as ms_drg
+    , null as ms_drg_code
     , med.claim_id 
     , pos.code as place_of_service_code
     , pos.description as place_of_service_description

@@ -21,6 +21,9 @@ sources:
       - name: encounter_type
       - name: icd_10_cm
       - name: icd_10_pcs
+      - name: medicare_dual_eligibility
+      - name: medicare_status_code
       - name: ms_drg
       - name: place_of_service
+      - name: present_on_admission
       - name: revenue_center_code

@@ -21,6 +21,7 @@ with condition_code as(
     ,diagnosis_code_type as code_type
     ,code
     ,cast(replace(diagnosis_rank,'DIAGNOSIS_CODE_') as int) as diagnosis_rank
+    ,data_source
   from {{ ref('encounter_claim_line_stage')}}
   unpivot(
     code for diagnosis_rank in (diagnosis_code_1
@@ -53,11 +54,11 @@ with condition_code as(
 , condition_poa as(
   select 
     claim_id
-    ,present_on_admit
+    ,present_on_admit_code
     ,cast(replace(diagnosis_rank,'DIAGNOSIS_POA_') as int) as diagnosis_rank
   from {{ ref('encounter_claim_line_stage')}}
   unpivot(
-    present_on_admit for diagnosis_rank in (diagnosis_poa_1
+    present_on_admit_code for diagnosis_rank in (diagnosis_poa_1
                                             ,diagnosis_poa_2
                                             ,diagnosis_poa_3
                                             ,diagnosis_poa_4
@@ -93,8 +94,9 @@ select distinct
   ,cast(replace(c.code,'.','') as varchar) as code
   ,cast(dx.short_description as varchar) as description
   ,cast(c.diagnosis_rank as int) as diagnosis_rank
-  ,cast(p.present_on_admit as varchar) as present_on_admit
-  ,cast('{{ var('source_name')}}' as varchar) as data_source
+  ,cast(p.present_on_admit_code as varchar) as present_on_admit_code
+  ,cast(poa.description as varchar) as present_on_admit_description
+  ,cast(data_source as varchar) as data_source
 from condition_code c
 left join condition_poa p
   ON c.claim_id = p.claim_id
@@ -102,4 +104,6 @@ left join condition_poa p
 left join {{ source('tuva_terminology','icd_10_cm')}} dx
   on c.code = icd_10_cm
   and c.code_type in ('icd-10-cm')
+left join {{ source('tuva_terminology','present_on_admission')}} poa
+  on p.present_on_admit_code = poa.present_on_admit_code
 where code <> ''

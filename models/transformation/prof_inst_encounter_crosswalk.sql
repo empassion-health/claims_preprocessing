@@ -53,7 +53,7 @@ with prof_inst_encounter_crosswalk as(
       on d.patient_id = f.patient_id
       and d.claim_start_date >= f.encounter_start_date
       and d.claim_start_date <= f.encounter_end_date
-  where d.claim_type in ('p','dme','professional')
+  where d.claim_type = 'professional'
 
   )
 , ambigous_match as(

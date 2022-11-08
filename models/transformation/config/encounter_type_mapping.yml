@@ -22,7 +22,7 @@ models:
           tests:
             - not_null
             - accepted_values:
-                values: ['d','i','p','v','dental','institutional','professional','vision']
+                values: ['dental','institutional','professional','vision']
         - name: claim_id
           description:  The source claim id
           tests:
