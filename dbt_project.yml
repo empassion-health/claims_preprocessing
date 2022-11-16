@@ -1,33 +1,46 @@
 name: 'claims_preprocessing'
-version: '1.0.0'
+version: '0.1.1'
 config-version: 2
 
-# This setting configures which "profile" dbt uses for this project.  
-# Configuration required for CLI users.  Cloud users can leave as 'default'
 profile: 'default'
 
 vars:
-  source_name: cclf                     # configuration required
-                                        # name describing the dataset feeding this project
 
-  input_database: tuva                  # configuration required
-                                        # name of the database where sources feeding this project are stored
 
-  input_schema: claims_input            # configuration required
-                                        # name of the schema where sources feeding this project is stored
+## optional output config option 1 (configs apply to all tuva packages)
+#
+#  tuva_database: tuva                                     # optional: name of the database where tables from this package will be written
+#                                                          # default: tuva
+#
+#  tuva_schema_prefix: test                                 # optional: prefix (+_) that will be prerpended to all tuva package schema defaults
+#                                                          # default schema: core (no prefix by default)
+#
+#
+#
+## optional output config option 2 (package specific config), overrides option 1
+#
+#  claims_preprocessing_database: tuva                     # optional: name of the database where tables from this package will be written
+#                                                          # default: tuva
+#
+#  claims_preprocessing_schema: test_claims_preprocessing  # optional: name of the schema where tables from this package will be written
+#                                                          # default: core
+#
 
-  output_database: tuva                 # configuration required
-                                        # name of the database where output of this project should be written
 
-  output_schema: core                   # configuration required
+### optional overrides for input data, only for use as a project
+#  claims_preprocessing_input_database: tuva               # optional: name of the database where sources feeding this prorject are stored
+#                                                          # default: tuva
+#
+#  claims_preprocessing_input_schema: test_claims_input    # optional: name of the schema where sources feeding this project are stored
+#                                                          # default: claims_input
+#
                          
-  medical_claim: "{{ source(var('source_name'),'medical_claim') }}"
-  eligibility: "{{ source(var('source_name'),'eligibility') }}"
+  medical_claim: "{% if project_name == 'claims_preprocessing' %}{{ source('claims_input','medical_claim') }}{% else %}{{ref('medical_claim')}}{% endif %}"
+  eligibility: "{% if project_name == 'claims_preprocessing' %}{{ source('claims_input','eligibility') }}{% else %}{{ref('eligibility')}}{% endif %}"
+  pharmacy_claim: "{% if project_name == 'claims_preprocessing' %}{{ source('claims_input','pharmacy_claim') }}{% else %}{{ref('pharmacy_claim')}}{% endif %}"
 
 
-# These configurations specify where dbt should look for different types of files.
-# The `source-paths` config, for example, states that models in this project can be
-# found in the "models/" directory. You probably won't need to change these!
+
 model-paths: ["models"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
@@ -40,14 +53,9 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
-
-# Configuring models
-# Full documentation: https://docs.getdbt.com/docs/configuring-models
-
 models:
   claims_preprocessing:
     +materialized: table
-    core:
-      +materialized: table
+
 tests:
   +severity: warn

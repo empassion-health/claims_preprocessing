@@ -1,0 +1,378 @@
+version: 2
+
+models:
+### transformation
+  - name: claims_preprocessing__acute_inpatient_encounter
+    description: Mapping of acute inpatient encounter
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: acute_inpatient_encounter
+      tags: claims_preprocessing
+  - name: claims_preprocessing__emergency_department_encounter
+    description: Mapping of ED encounters
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: emergency_department_encounter
+      tags: claims_preprocessing
+  - name: claims_preprocessing__encounter_claim_crosswalk
+    description: A crosswalk between encounter id and  claim id
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: encounter_claim_crosswalk
+      tags: claims_preprocessing
+    columns:
+      - name: claim_id
+        description: Claim id from data source and primary key
+        tests:
+          - unique
+          - not_null
+  - name: claims_preprocessing__encounter_claim_line_stage
+    description: Claim line level detail
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: encounter_claim_line_stage
+      tags: claims_preprocessing
+    tests:
+       - unique:
+           column_name: "(claim_id || '_' || claim_line_number)"
+    columns:
+      - name: patient_id
+        description: unique identifier
+  - name: claims_preprocessing__encounter_inst_stage
+    description: Encounter level data elements for institutional claims
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: encounter_inst_stage
+      tags: claims_preprocessing
+    columns:
+      - name: encounter_id
+        description: Unique identifier and primary key
+        tests:
+          - unique
+          - not_null
+  - name: claims_preprocessing__encounter_prof_stage
+    description: Encounter level data elements for professional claims
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: encounter_prof_stage
+      tags: claims_preprocessing
+    columns:
+      - name: encounter_id
+        description: Unique identifier and primary key
+        tests:
+          - unique
+          - not_null
+  - name: claims_preprocessing__encounter_type_mapping
+    description: Mapping of institutional and professional claims at the claim level to an encounter type
+      Institutional claims require bill type and revenue codes.  Professional claims require place of service codes.
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: encounter_type_mapping
+      tags: claims_preprocessing
+    tests:
+      - unique:
+          column_name: "(claim_id || '-' || claim_line_number)"
+          config:
+            severity: error
+    columns:
+      - name: claim_line_number
+        description:  Number of the claim line
+        tests:
+          - not_null
+      - name: claim_type
+        description:  Overarching claim type.  Valid values are 'dental','institutional','professional', and 'vision'.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['dental','institutional','professional','vision']
+      - name: claim_id
+        description:  The source claim id
+        tests:
+          - not_null
+      - name: patient_id
+        description:  The unique identifier of a beneficiary
+        tests:
+          - not_null
+      - name: encounter_type
+        description:  The encounter type that has been assigned to the claim line item.
+        tests:
+          - encounter_type_mapping
+      - name: claim_start_date
+        description:  The start date of the claim
+        tests:
+          - not_null
+      - name: claim_end_date
+        description:  The end date of the claim
+        tests:
+          - not_null
+      - name: discharge_disposition_code
+        description:  The discharge status of the patient at the time the claim was submitted.
+      - name: facility_npi
+        description:  The facility ID on the claim.  Does not have to be the NPI however it needs to be a consistent ID within the claim to ensure linking/merging.
+        tests:
+          - inst_bill_type_code
+      - name: bill_type_code
+        description:  The 3 digit bill type code on the claim.  Should only be on institutional claims.  Facility type (TOB 1) and classification (TOB 2) required for mapping encounter types.  Frequency (TOB 3) not needed and will be ignored.
+        tests:
+          - inst_bill_type_code
+      - name: revenue_center_code
+        description:  The 4 digit revenue type code on the claim.  Should only be on institutional claims.  Must be 4 digits including leading zeros.
+      - name: place_of_service_code
+        description:  The 2 digit place of service code on the claim.  Should only appear on professional claims.  Must be 2 digits including leading zero.
+  - name: claims_preprocessing__encounter_type_union
+    description: Union of claims mapped to an encounter
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: encounter_type_union
+      tags: claims_preprocessing
+    columns:
+      - name: claim_id
+        description: Claim id from data source and primary key
+        tests:
+          - unique
+          - not_null
+  - name: claims_preprocessing__inst_encounter_final
+    description: All encounters for institutional claims.
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: inst_encounter_final
+      tags: claims_preprocessing
+    columns:
+      - name: encounter_id
+        description:  Unique identifer and primary key
+        tests:
+          - unique
+          - not_null
+  - name: claims_preprocessing__inst_encounter_merge
+    description: Creation of encounter for merged institutional claims
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: inst_encounter_merge
+      tags: claims_preprocessing
+    columns:
+      - name: encounter_id
+        description:  Unique identifer and primary key
+        tests:
+          - unique
+          - not_null
+  - name: claims_preprocessing__inst_encounter_nonmerge
+    description: Crosswalk of claim ids to a master grouper (encounter id)
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: inst_encounter_nonmerge
+      tags: claims_preprocessing
+    columns:
+      - name: encounter_id
+        description:  Unique identifier and primary key
+        tests:
+          - unique
+          - not_null
+  - name: claims_preprocessing__inst_merge_crosswalk
+    description: Crosswalk of claim ids to a master grouper (encounter id)
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: inst_merge_crosswalk
+      tags: claims_preprocessing
+    columns:
+      - name: claim_id
+        description:  Unique identifier and primary key
+        tests:
+          - unique
+          - not_null
+  - name: claims_preprocessing__inst_merge_final
+    description: Encounter details
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: inst_merge_final
+      tags: claims_preprocessing
+    columns:
+      - name: claim_id_a
+        description:  One claim in a pair that are part of the same encounter
+      - name: claim_id_b
+        description:  One claim in a pair that are part of the same encounter
+  - name: claims_preprocessing__inst_merge_stage
+    description: List of institutional claims pairs that are eligable for merging.
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: inst_merge_stage
+      tags: claims_preprocessing
+    columns:
+      - name: claim_id_a
+        description:  One claim in a pair that are part of the same encounter
+        tests:
+          - unique
+          - not_null
+      - name: claim_id_b
+        description:  One claim in a pair that are part of the same encounter
+        tests:
+          - unique
+          - not_null
+  - name: claims_preprocessing__prof_inst_encounter_crosswalk
+    description: List of institutional claims pairs that are eligable for merging.
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: prof_inst_encounter_crosswalk
+      tags: claims_preprocessing
+    columns:
+      - name: claim_id
+        description:  Unique identifier and primary key
+        tests:
+          - unique
+          - not_null
+  - name: claims_preprocessing__prof_merge_final
+    description: List of institutional claims pairs that are eligable for merging.
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: prof_merge_final
+      tags: claims_preprocessing
+    columns:
+      - name: claim_id
+        description:  Unique identifier and primary key
+        tests:
+          - unique
+          - not_null
+
+
+### core
+  - name: claims_preprocessing__condition
+    description: Diagnosis list
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: condition
+      tags: claims_preprocessing
+    tests:
+       - unique:
+           column_name: "(encounter_id || patient_id || condition_date || code || diagnosis_rank || present_on_admit_code)"
+    columns:
+      - name: patient_id
+        description: unique identifier
+  - name: claims_preprocessing__eligibility
+    description: eligibility details
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: eligibility
+      tags: claims_preprocessing
+    tests:
+      - unique:
+          column_name: "(patient_id || member_id || payer || payer_type || enrollment_start_date || enrollment_end_date)"
+          config:
+            severity: error
+    columns:
+      - name: patient_id
+        description: unique identifier
+  - name: claims_preprocessing__encounter
+    description: Encounter details
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: encounter
+      tags: claims_preprocessing
+    columns:
+      - name: encounter_id
+        description: Unique identifier
+        tests:
+          - unique
+          - not_null
+      - name: patient_id
+        description: unique identifier
+  - name: claims_preprocessing__encounter_claim_line
+    description: Claim line level detail
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: encounter_claim_line
+      tags: claims_preprocessing
+    tests:
+       - unique:
+           column_name: "(claim_id || '_' || claim_line_number)"
+    columns:
+      - name: patient_id
+        description: unique identifier
+  - name: claims_preprocessing__patient
+    description: Unique list of patients and demographics
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: patient
+      tags: claims_preprocessing
+    columns:
+      - name: patient_id
+        description: Member unique identifier
+        tests:
+          - unique
+          - not_null
+      - name: gender
+        description: Member gender
+      - name: birth_date
+        description: Member date of birth
+      - name: race
+        description: Member race
+      - name: zip_code
+        description: Member zip code
+      - name: state
+        description: Member state
+      - name: deceased_flag
+        description: Flag indicating member is deceased
+      - name: death_date
+        description: Member date of death
+  - name: claims_preprocessing__prescription
+    description: Medicaions from claims
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: prescription
+      tags: claims_preprocessing
+  - name: claims_preprocessing__procedure
+    description: Procedure list
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}{%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core{% else %}core{%- endif -%}
+      alias: procedure
+      tags: claims_preprocessing
+    tests:
+       - unique:
+           column_name: "(encounter_id || patient_id || procedure_date || code)"
+    columns:
+      - name: patient_id
+        description: unique identifier
