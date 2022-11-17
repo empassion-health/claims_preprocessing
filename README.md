@@ -4,7 +4,7 @@
 
 ## 🧰 What does this project do?
 
-The Tuva Project's Claims Preprocessing data mart transforms raw claims data so that it's ready for analytics.  For a detailed overview of what the project does and how it works, check out our Knowledge Base.  For information on data models and to view the entire DAG check out our dbt [Docs](https://tuva-health.github.io/claims_preprocessing/#!/overview).
+The Tuva Project's Claims Preprocessing data mart transforms raw claims data so that it's ready for analytics.  For a detailed overview of what the project does and how it works, check out our [Knowledge Base](https://thetuvaproject.com/docs/intro).  For information on data models and to view the entire DAG check out our dbt [Docs](https://tuva-health.github.io/claims_preprocessing/#!/overview).
 
 ## 🔌 Database Support
 
