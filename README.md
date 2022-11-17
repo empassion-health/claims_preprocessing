@@ -12,7 +12,7 @@ This package has been tested on **Snowflake**.
 
 ### Pre-requisites
 
-This package is dependent on other Tuva packages.  We strongly recommend using ‘The Tuva Project’ package for all the building blocks needed to establish a comprehensive analytics platform. Please review the ReadMe in ‘The Tuva Project’ package for a detailed walkthrough and setup.
+This package is dependent on other Tuva packages.  We strongly recommend using [The Tuva Project](https://github.com/tuva-health/the_tuva_project) package for all the building blocks needed to establish a comprehensive analytics platform. Please review the ReadMe in [The Tuva Project](https://github.com/tuva-health/the_tuva_project) package for a detailed walkthrough and setup.
 
 ## 🙋🏻‍♀️ Contributions
 
