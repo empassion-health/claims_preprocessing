@@ -17,7 +17,6 @@ select
     , cast(dispensing_provider_npi as varchar) as dispensing_provider_npi
     , cast(dispensing_date as varchar) as dispensing_date
     , cast(ndc_code as varchar) as ndc_code
-    , cast(null as varchar) as ndc_description
     , cast(quantity as varchar) as quantity
     , cast(days_supply as varchar) as days_supply
     , cast(refills as varchar) as refills

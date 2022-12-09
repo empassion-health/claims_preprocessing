@@ -19,7 +19,7 @@ with condition_code as(
     ,claim_start_date as condition_date
     ,diagnosis_code_type as code_type
     ,code
-    ,cast(replace(diagnosis_rank,'DIAGNOSIS_CODE_') as int) as diagnosis_rank
+    ,cast(replace(lower(diagnosis_rank),'diagnosis_code_','') as int) as diagnosis_rank
     ,data_source
   from {{ ref('claims_preprocessing__encounter_claim_line_stage')}}
   unpivot(
@@ -54,7 +54,7 @@ with condition_code as(
   select 
     claim_id
     ,present_on_admit_code
-    ,cast(replace(diagnosis_rank,'DIAGNOSIS_POA_') as int) as diagnosis_rank
+    ,cast(replace(lower(diagnosis_rank),'diagnosis_poa_','') as int) as diagnosis_rank
   from {{ ref('claims_preprocessing__encounter_claim_line_stage')}}
   unpivot(
     present_on_admit_code for diagnosis_rank in (diagnosis_poa_1

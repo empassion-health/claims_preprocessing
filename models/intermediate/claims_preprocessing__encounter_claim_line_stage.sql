@@ -178,4 +178,17 @@ left join {{ ref('terminology__discharge_disposition')}} dd
 	on m.discharge_disposition_code = dd.discharge_disposition_code
 left join {{ ref('terminology__ms_drg')}} msdrg
 	on m.ms_drg_code = msdrg.ms_drg_code
+
+{% if target.type in ('redshift') -%}
+
+where isnull(m.revenue_center_code,'') <> '0001'
+
+
+{%- elif target.type in ('snowflake') -%}
+
+
 where ifnull(m.revenue_center_code,'') <> '0001'
+
+
+{%- else -%}
+{%- endif %}

@@ -8,7 +8,7 @@ The Tuva Project's Claims Preprocessing data mart transforms raw claims data so 
 
 ## 🔌 Database Support
 
-This package has been tested on **Snowflake**.
+This package has been tested on **Snowflake** and **Redshift**.
 
 ## ✅ How to get started
 
