@@ -98,4 +98,4 @@ left join procedure_date d
   AND c.procedure_sequence = d.procedure_sequence
 left join {{ ref('terminology__icd_10_pcs')}} px
   on c.code = icd_10_pcs
-  and c.code_type = 0
+  and c.code_type = 'icd_10_pcs'
