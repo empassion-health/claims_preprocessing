@@ -9,19 +9,19 @@
 {{ config(enabled=var('claims_preprocessing_enabled',var('tuva_packages_enabled',True))) }}
 
 select
-    cast(claim_id as varchar) as claim_id
-    , cast(claim_line_number as varchar) as claim_line_number
-    , cast(patient_id as varchar) as patient_id
-    , cast(member_id as varchar) as member_id
-    , cast(prescribing_provider_npi as varchar) as prescribing_provider_npi
-    , cast(dispensing_provider_npi as varchar) as dispensing_provider_npi
-    , cast(dispensing_date as varchar) as dispensing_date
-    , cast(ndc_code as varchar) as ndc_code
-    , cast(quantity as varchar) as quantity
-    , cast(days_supply as varchar) as days_supply
-    , cast(refills as varchar) as refills
-    , cast(paid_date as varchar) as paid_date
-    , cast(paid_amount as varchar) as paid_amount
-    , cast(allowed_amount as varchar) as allowed_amount
-    , cast(data_source as varchar) as data_source
+    {{ cast_string_or_varchar('claim_id') }} as claim_id
+    , {{ cast_string_or_varchar('claim_line_number') }} as claim_line_number
+    , {{ cast_string_or_varchar('patient_id') }} as patient_id
+    , {{ cast_string_or_varchar('member_id') }} as member_id
+    , {{ cast_string_or_varchar('prescribing_provider_npi') }} as prescribing_provider_npi
+    , {{ cast_string_or_varchar('dispensing_provider_npi') }} as dispensing_provider_npi
+    , {{ cast_string_or_varchar('dispensing_date') }} as dispensing_date
+    , {{ cast_string_or_varchar('ndc_code') }} as ndc_code
+    , {{ cast_string_or_varchar('quantity') }} as quantity
+    , {{ cast_string_or_varchar('days_supply') }} as days_supply
+    , {{ cast_string_or_varchar('refills') }} as refills
+    , {{ cast_string_or_varchar('bene_mbi_id') }} as paid_date
+    , {{ cast_string_or_varchar('paid_date') }} as paid_amount
+    , {{ cast_string_or_varchar('allowed_amount') }} as allowed_amount
+    , {{ cast_string_or_varchar('data_source') }} as data_source
 from {{ var('pharmacy_claim')}} m
