@@ -20,8 +20,8 @@ select
     , {{ cast_string_or_varchar('quantity') }} as quantity
     , {{ cast_string_or_varchar('days_supply') }} as days_supply
     , {{ cast_string_or_varchar('refills') }} as refills
-    , {{ cast_string_or_varchar('bene_mbi_id') }} as paid_date
-    , {{ cast_string_or_varchar('paid_date') }} as paid_amount
+    , {{ cast_string_or_varchar('paid_date') }} as paid_date
+    , {{ cast_string_or_varchar('paid_amount') }} as paid_amount
     , {{ cast_string_or_varchar('allowed_amount') }} as allowed_amount
     , {{ cast_string_or_varchar('data_source') }} as data_source
 from {{ var('pharmacy_claim')}} m
