@@ -28,7 +28,7 @@ with patient_stage as(
         ,row_number() over (partition by patient_id order by enrollment_end_date DESC) as row_sequence
     from {{ var('eligibility')}}
 )
-{{ cast_string_or_varchar('elig.data_source') }}
+
 select
     {{ cast_string_or_varchar('patient_id') }} as patient_id
     ,{{ cast_string_or_varchar('gender') }} as gender
