@@ -84,14 +84,14 @@ with procedure_code as(
             )ppoa
 )
 select distinct 
-	cast(c.encounter_id as varchar) as encounter_id
-	,cast(c.patient_id as varchar) as patient_id
+	{{ cast_string_or_varchar('c.encounter_id') }} as encounter_id
+	,{{ cast_string_or_varchar('c.patient_id') }} as patient_id
 	,cast(d.procedure_date as date) as procedure_date
-	,cast(c.code_type as varchar) as code_type
-	,cast(c.code as varchar) as code
-	,cast(px.short_description as varchar) as description
-	,cast(c.practioner_npi as varchar) as practioner_npi
-	,cast(c.data_source as varchar) as data_source
+	,{{ cast_string_or_varchar('c.code_type') }} as code_type
+	,{{ cast_string_or_varchar('c.code') }} as code
+	,{{ cast_string_or_varchar('px.short_description') }} as description
+	,{{ cast_string_or_varchar('c.practioner_npi') }} as practioner_npi
+	,{{ cast_string_or_varchar('c.data_source') }} as data_source
 from procedure_code c
 left join procedure_date d
   ON c.claim_id = d.claim_id

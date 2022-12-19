@@ -51,9 +51,9 @@ with encounter_combined as(
 )
 
 select distinct
-    cast(s.encounter_id as varchar) as encounter_id
-    ,cast(s.patient_id as varchar) as patient_id
-    ,cast(s.encounter_type as varchar) as encounter_type
+    {{ cast_string_or_varchar('s.encounter_id') }} as encounter_id
+    ,{{ cast_string_or_varchar('s.patient_id') }} as patient_id
+    ,{{ cast_string_or_varchar('s.encounter_type') }} as encounter_type
     ,cast(c.encounter_start_date as date) as encounter_start_date
     ,cast(c.encounter_end_date as date) as encounter_end_date
     ,cast(c.admission_date as date) as admission_date
@@ -74,7 +74,7 @@ select distinct
     ,cast(c.paid_amount as numeric(38,2)) as paid_amount
     ,cast(c.allowed_amount as numeric(38,2)) as allowed_amount
     ,cast(c.charge_amount as numeric(38,2)) as charge_amount
-    ,cast(s.data_source as varchar) as data_source
+    ,{{ cast_string_or_varchar('s.data_source') }} as data_source
 from encounter_stage s
 inner join encounter_combined c
 	on s.encounter_id = c.encounter_id

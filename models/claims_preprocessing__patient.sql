@@ -28,21 +28,21 @@ with patient_stage as(
         ,row_number() over (partition by patient_id order by enrollment_end_date DESC) as row_sequence
     from {{ var('eligibility')}}
 )
-
+{{ cast_string_or_varchar('elig.data_source') }}
 select
-    cast(patient_id as varchar) as patient_id
-    ,cast(gender as varchar) as gender
-    ,cast(race as varchar) as race
+    {{ cast_string_or_varchar('patient_id') }} as patient_id
+    ,{{ cast_string_or_varchar('gender') }} as gender
+    ,{{ cast_string_or_varchar('race') }} as race
     ,cast(birth_date as date) as birth_date
     ,cast(death_date as date) as death_date
     ,cast(death_flag as int) as death_flag
-    ,cast(first_name as varchar) as first_name
-    ,cast(last_name as varchar) as last_name
-    ,cast(address as varchar) as address
-    ,cast(city as varchar) as city
-    ,cast(state as varchar) as state
-    ,cast(zip_code as varchar) as zip_code
-    ,cast(phone as varchar) as phone
-    ,cast(data_source as varchar) as data_source
+    ,{{ cast_string_or_varchar('first_name') }} as first_name
+    ,{{ cast_string_or_varchar('last_name') }} as last_name
+    ,{{ cast_string_or_varchar('address') }} as address
+    ,{{ cast_string_or_varchar('city') }} as city
+    ,{{ cast_string_or_varchar('state') }} as state
+    ,{{ cast_string_or_varchar('zip_code') }} as zip_code
+    ,{{ cast_string_or_varchar('phone') }} as phone
+    ,{{ cast_string_or_varchar('data_source') }} as data_source
 from patient_stage
 where row_sequence = 1

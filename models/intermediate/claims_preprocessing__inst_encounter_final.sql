@@ -12,9 +12,9 @@
 ) }}
 
 select
-   cast(encounter_id as varchar) as encounter_id
-   ,cast(patient_id as varchar) as patient_id
-   ,cast(encounter_type as varchar) as encounter_type
+   {{ cast_string_or_varchar('encounter_id') }} as encounter_id
+   ,{{ cast_string_or_varchar('patient_id') }} as patient_id
+   ,{{ cast_string_or_varchar('encounter_type') }} as encounter_type
    ,cast(encounter_start_date as date) as encounter_start_date
    ,cast(encounter_end_date as date) as encounter_end_date
    ,cast(paid_amount as numeric(38,2)) as paid_amount
@@ -24,9 +24,9 @@ from {{ ref('claims_preprocessing__inst_encounter_merge')}}
 union all
 
 select
-   cast(encounter_id as varchar) as encounter_id
-   ,cast(patient_id as varchar) as patient_id
-   ,cast(encounter_type as varchar) as encounter_type
+   {{ cast_string_or_varchar('encounter_id') }} as encounter_id
+   ,{{ cast_string_or_varchar('patient_id') }} as patient_id
+   ,{{ cast_string_or_varchar('encounter_type') }} as encounter_type
    ,cast(encounter_start_date as date) as encounter_start_date
    ,cast(encounter_end_date as date) as encounter_end_date
    ,cast(paid_amount as numeric(38,2)) as paid_amount

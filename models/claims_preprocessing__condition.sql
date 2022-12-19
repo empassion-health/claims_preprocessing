@@ -85,17 +85,17 @@ with condition_code as(
             )ppoa
 )
 select distinct
-  cast(c.encounter_id as varchar) as encounter_id
-  ,cast(c.patient_id as varchar) as patient_id
+  {{ cast_string_or_varchar('c.encounter_id') }} as encounter_id
+  ,{{ cast_string_or_varchar('c.patient_id') }} as patient_id
   ,cast(c.condition_date as date) as condition_date
   ,cast('discharge diagnosis' as varchar) as condition_type
-  ,cast(c.code_type as varchar) as code_type
+  ,{{ cast_string_or_varchar('c.code_type') }} as code_type
   ,cast(replace(c.code,'.','') as varchar) as code
-  ,cast(dx.short_description as varchar) as description
+  ,{{ cast_string_or_varchar('dx.short_description') }} as description
   ,cast(c.diagnosis_rank as int) as diagnosis_rank
-  ,cast(p.present_on_admit_code as varchar) as present_on_admit_code
-  ,cast(poa.present_on_admit_description as varchar) as present_on_admit_description
-  ,cast(data_source as varchar) as data_source
+  ,{{ cast_string_or_varchar('p.present_on_admit_code') }} as present_on_admit_code
+  ,{{ cast_string_or_varchar('poa.present_on_admit_description') }} as present_on_admit_description
+  ,{{ cast_string_or_varchar('data_source') }} as data_source
 from condition_code c
 left join condition_poa p
   ON c.claim_id = p.claim_id

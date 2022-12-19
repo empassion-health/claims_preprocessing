@@ -1,17 +1,17 @@
 select
-    cast(null as varchar) as claim_id
-    , cast(null as varchar) as claim_line_number
-    , cast(null as varchar) as patient_id
-    , cast(null as varchar) as member_id
-    , cast(null as varchar) as prescribing_provider_npi
-    , cast(null as varchar) as dispensing_provider_npi
-    , cast(null as varchar) as dispensing_date
-    , cast(null as varchar) as ndc_code
-    , cast(null as varchar) as quantity
-    , cast(null as varchar) as days_supply
-    , cast(null as varchar) as refills
-    , cast(null as varchar) as paid_date
-    , cast(null as varchar) as paid_amount
-    , cast(null as varchar) as allowed_amount
-    , cast(null as varchar) as data_source
+    {{ cast_string_or_varchar('null') }} as claim_id
+    , {{ cast_string_or_varchar('null') }} as claim_line_number
+    , {{ cast_string_or_varchar('null') }} as patient_id
+    , {{ cast_string_or_varchar('null') }} as member_id
+    , {{ cast_string_or_varchar('null') }} as prescribing_provider_npi
+    , {{ cast_string_or_varchar('null') }} as dispensing_provider_npi
+    , {{ cast_string_or_varchar('null') }} as dispensing_date
+    , {{ cast_string_or_varchar('null') }} as ndc_code
+    , {{ cast_string_or_varchar('null') }} as quantity
+    , {{ cast_string_or_varchar('null') }} as days_supply
+    , {{ cast_string_or_varchar('null') }} as refills
+    , {{ cast_string_or_varchar('null') }} as paid_date
+    , {{ cast_string_or_varchar('null') }} as paid_amount
+    , {{ cast_string_or_varchar('null') }} as allowed_amount
+    , {{ cast_string_or_varchar('null') }} as data_source
 where 1=0
