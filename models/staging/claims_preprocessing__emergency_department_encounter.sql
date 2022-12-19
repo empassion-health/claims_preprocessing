@@ -13,8 +13,8 @@
 ---------------------------------------------------------------------------------------------------------
 {{ config(enabled=var('claims_preprocessing_enabled',var('tuva_packages_enabled',True))) }}
 
-
-with claim_emergency_department_eligibility as(
+DROP TABLE IF EXISTS claim_emergency_department_eligibility;
+CREATE TABLE claim_emergency_department_eligibility as(
   select 
       claim_type
     , med.revenue_center_code
@@ -23,8 +23,9 @@ with claim_emergency_department_eligibility as(
     , claim_id
   from {{ var('medical_claim')}} med
   where med.revenue_center_code in ('0450','0451','0452','0459','0981')
-)
-, room_and_board_claims as(
+);
+DROP TABLE IF EXISTS room_and_board_claims;
+CREATE TABLE room_and_board_claims as(
   select 
      med.revenue_center_code
     , rev.revenue_center_description
