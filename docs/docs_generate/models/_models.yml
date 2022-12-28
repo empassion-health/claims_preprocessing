@@ -329,3 +329,40 @@ models:
         description: Date of the 25th procedure on the claim.
       - name: data_source
         description: User-configured field that indicates the data source (e.g. typically named after the payer and state "BCBS Tennessee").
+  - name: pharmacy_claim
+    config:
+      database: tuva
+      schema: claims_preprocessing_input
+    description: >
+      The pharmacy_claim table includes information about retail and specialty drug prescriptions that have been filled by a patient, billed by a pharmacy, and paid by an insurer.
+    columns:
+      - name: claim_id
+        description: Unique identifier for each claim.
+      - name: claim_line_number
+        description: Indicates the line number for the particular line of the claim.
+      - name: patient_id
+        description: Unique identifier for each patient in the dataset.
+      - name: member_id
+        description: Identifier that links a patient to a particular insurance product or health plan. A patient can have more than one member_id because they can have more than one insurance product/plan.
+      - name: prescribing_provider_npi
+        description: NPI for the provider that wrote the prescription (e.g. priamry care physician).
+      - name: dispensing_provider_npi
+        description: NPI for the provider that dispensed the prescription (e.g. pharmacy).
+      - name: dispensing_date
+        description: Date the prescription was filled.
+      - name: ndc_code
+        description: National drug code on the claim.
+      - name: quantity
+        description: Number of doses.
+      - name: days_supply
+        description: Number of days supply.
+      - name: refills
+        description: Number of refills for the prescription.
+      - name: paid_date
+        description: Date the claim was paid.
+      - name: paid_amount
+        description: Amount paid by the health insurer for the claim.
+      - name: allowed_amount
+        description: Contractual amount allowed to be paid by the payer + patient.
+      - name: data_source
+        description: User-configured field that indicates the data source (e.g. typically named after the payer and state "BCBS Tennessee").

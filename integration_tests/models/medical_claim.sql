@@ -1,1 +1,1 @@
-select * from {{source('claims_cdm','medical_claim')}}
+select * from {{source('claims_common','medical_claim')}}

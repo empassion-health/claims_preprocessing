@@ -1,9 +1,10 @@
 version: 2
 
 sources:
-  - name: claims_cdm
+  - name: claims_common
     database: "{{ var('claims_preprocessing_input_database','tuva') }}"
-    schema:  "{{ var('claims_preprocessing_input_schema','claims_cdm') }}"
+    schema:  "{{ var('claims_preprocessing_input_schema','claims_common') }}"
     tables:
       - name: medical_claim
       - name: eligibility
+      - name: pharmacy_claim

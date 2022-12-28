@@ -1,6 +1,17 @@
 version: 2
 
 models:
+  - name: claims_preprocessing__prescription
+    description: Medications from claims
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
+        {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
+        {% else %}core{%- endif -%}
+      alias: _prescription
+      tags: claims_preprocessing
+
   - name: claims_preprocessing__patient
     config:
       database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
@@ -11,7 +22,6 @@ models:
       alias: _patient
       tags: claims_preprocessing
 
-
   - name: claims_preprocessing__encounter
     config:
       database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
@@ -21,7 +31,6 @@ models:
         {% else %}core{%- endif -%}
       alias: _encounter
       tags: claims_preprocessing
-
 
   - name: claims_preprocessing__condition
     config:
