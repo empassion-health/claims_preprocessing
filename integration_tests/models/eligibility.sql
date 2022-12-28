@@ -1,1 +1,1 @@
-select * from {{source('claims_input','eligibility')}}
+select * from {{source('claims_cdm','eligibility')}}

@@ -1,5 +1,5 @@
 name: 'claims_preprocessing'
-version: '0.1.3'
+version: '0.1.4'
 config-version: 2
 
 profile: 'default'
@@ -12,10 +12,6 @@ vars:
   medical_claim: |
     {% if var('medical_claim_override',none) is not none %}{{var('medical_claim_override')}}
     {%- else %}{{ref('medical_claim')}}
-    {% endif %}
-  pharmacy_claim: |
-    {% if var('pharmacy_claim_override',none) is not none %}{{var('pharmacy_claim_override')}}
-    {%- else %}{{ref('pharmacy_claim')}}
     {% endif %}
     
     

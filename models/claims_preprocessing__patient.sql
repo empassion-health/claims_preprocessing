@@ -1,13 +1,12 @@
--------------------------------------------------------------------------------
--- Author       Thu Xuan Vu
--- Created      June 2022
--- Purpose      List of patients and demographics.
--- Notes        Need row number to select most recent demographic information for a patient.
--------------------------------------------------------------------------------
--- Modification History
---
--------------------------------------------------------------------------------
-{{ config(enabled=var('claims_preprocessing_enabled',var('tuva_packages_enabled',True))) }}
+
+
+{{ config(
+     enabled = var('claims_preprocessing_enabled',var('tuva_packages_enabled',True))
+   )
+}}
+
+
+
 
 with patient_stage as(
     select
@@ -25,8 +24,10 @@ with patient_stage as(
         ,zip_code
         ,phone
         ,data_source
-        ,row_number() over (partition by patient_id order by enrollment_end_date DESC) as row_sequence
-    from {{ var('eligibility')}}
+        ,row_number() over (
+	    partition by patient_id
+	    order by enrollment_end_date DESC) as row_sequence
+    from {{ ref('claims_preprocessing__eligibility')}}
 )
 
 select
