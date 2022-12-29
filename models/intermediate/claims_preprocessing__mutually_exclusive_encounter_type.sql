@@ -30,7 +30,7 @@ select
     when encounter_type = 'office visit' then 14
     when encounter_type = 'telehealth' then 15
     when encounter_type = 'unmapped' then 16
-  end as encounter_ranking
+  end as encounter_rank
   
 from {{ ref('claims_preprocessing__encounter_type') }}
   
@@ -47,9 +47,9 @@ from (
         claim_id,
         encounter_type,
 	encounter_type_detail,
-	encounter_ranking,
+	encounter_rank,
         row_number() over (
-            partition by claim_id order by encounter_ranking 
+            partition by claim_id order by encounter_rank
         ) as row_num
     from encounter_ranking
 )

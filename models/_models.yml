@@ -9,7 +9,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: _prescription
+      alias: prescription
       tags: claims_preprocessing
 
   - name: claims_preprocessing__patient
@@ -19,7 +19,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: _patient
+      alias: patient
       tags: claims_preprocessing
 
   - name: claims_preprocessing__encounter
@@ -29,7 +29,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: _encounter
+      alias: encounter
       tags: claims_preprocessing
 
   - name: claims_preprocessing__condition
@@ -39,7 +39,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: _condition
+      alias: condition
       tags: claims_preprocessing
 
 
@@ -50,7 +50,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: _procedure
+      alias: procedure
       tags: claims_preprocessing
 
 
@@ -161,4 +161,15 @@ models:
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
       alias: intermediate_professional_encounters
+      tags: claims_preprocessing
+
+
+  - name: claims_preprocessing__relevant_encounter_type_claims
+    config:
+      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      schema: |
+        {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
+        {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
+        {% else %}core{%- endif -%}
+      alias: intermediate_relevant_encounter_type_claims
       tags: claims_preprocessing

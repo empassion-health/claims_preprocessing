@@ -7,13 +7,13 @@ profile: 'default'
 
 
 vars:
-#  tuva_database: dev_use
-
+  tuva_database: dev_user
+#  tuva_schema_prefix: test
 # Set the input database and schema:
 #  claims_preprocessing_input_database: tuva_claims_demo_sample
 #  claims_preprocessing_input_schema: claims_common
 #  terminology_database: dev_
-#  terminology_schema: test_term
+#  terminology_schema: terminology
 #  tuva_packages_enabled: false
 #  claims_preprocessing_enabled: true
 

@@ -344,7 +344,7 @@ select
   'acute inpatient - institutional' as encounter_type_detail
 from acute_inpatient_institutional
 
-union
+union all
 
 select
   claim_id,
@@ -352,7 +352,7 @@ select
   'acute inpatient - professional' as encounter_type_detail
 from acute_inpatient_professional
 
-union
+union all
 
 select
   claim_id,
@@ -360,7 +360,7 @@ select
   'inpatient rehabilitation - institutional' as encounter_type_detail
 from inpatient_rehabilitation_institutional
 
-union
+union all
 
 select
   claim_id,
@@ -368,7 +368,7 @@ select
   'inpatient rehabilitation - professional' as encounter_type_detail
 from inpatient_rehabilitation_professional
 
-union
+union all
 
 select
   claim_id,
@@ -376,7 +376,7 @@ select
   'inpatient psychiatric - institutional' as encounter_type_detail
 from inpatient_psychiatric_institutional
 
-union
+union all
 
 select
   claim_id,
@@ -384,7 +384,7 @@ select
   'inpatient psychiatric - professional' as encounter_type_detail
 from inpatient_psychiatric_professional
 
-union
+union all
 
 select
   claim_id,
@@ -392,7 +392,7 @@ select
   'inpatient substance abuse - institutional' as encounter_type_detail
 from inpatient_substance_abuse_institutional
 
-union
+union all
 
 select
   claim_id,
@@ -400,7 +400,7 @@ select
   'inpatient substance abuse - professional' as encounter_type_detail
 from inpatient_substance_abuse_professional
 
-union
+union all
 
 select
   claim_id,
@@ -408,7 +408,7 @@ select
   'skilled nursing - institutional' as encounter_type_detail
 from skilled_nursing_institutional
 
-union
+union all
 
 select
   claim_id,
@@ -416,7 +416,7 @@ select
   'skilled nursing - professional' as encounter_type_detail
 from skilled_nursing_professional
 
-union
+union all
 
 select
   claim_id,
@@ -424,7 +424,7 @@ select
   'ambulatory surgery - institutional' as encounter_type_detail
 from ambulatory_surgery_institutional
 
-union
+union all
 
 select
   claim_id,
@@ -432,7 +432,7 @@ select
   'ambulatory surgery - professional' as encounter_type_detail
 from ambulatory_surgery_professional
 
-union
+union all
 
 select
   claim_id,
@@ -440,7 +440,7 @@ select
   'dialysis - institutional' as encounter_type_detail
 from dialysis_institutional
 
-union
+union all
 
 select
   claim_id,
@@ -448,7 +448,7 @@ select
   'dialysis - professional' as encounter_type_detail
 from dialysis_professional
 
-union
+union all
 
 select
   claim_id,
@@ -456,7 +456,7 @@ select
   'emergency department - institutional' as encounter_type_detail
 from emergency_department_institutional
 
-union
+union all
 
 select
   claim_id,
@@ -464,7 +464,7 @@ select
   'emergency department - professional' as encounter_type_detail
 from emergency_department_professional
 
-union
+union all
 
 select
   claim_id,
@@ -472,7 +472,7 @@ select
   'urgent care - institutional' as encounter_type_detail
 from urgent_care_institutional
 
-union
+union all
 
 select
   claim_id,
@@ -480,7 +480,7 @@ select
   'urgent care - professional' as encounter_type_detail
 from urgent_care_professional
 
-union
+union all
 
 select
   claim_id,
@@ -488,7 +488,7 @@ select
   'home health - institutional' as encounter_type_detail
 from home_health_institutional
 
-union
+union all
 
 select
   claim_id,
@@ -496,7 +496,7 @@ select
   'home health - professional' as encounter_type_detail
 from home_health_professional
 
-union
+union all
 
 select
   claim_id,
@@ -504,7 +504,7 @@ select
   'hospice - institutional' as encounter_type_detail
 from hospice_institutional
 
-union
+union all
 
 select
   claim_id,
@@ -512,7 +512,7 @@ select
   'hospice - professional' as encounter_type_detail
 from hospice_professional
 
-union
+union all
 
 select
   claim_id,
@@ -520,7 +520,7 @@ select
   'outpatient rehabilitation - institutional' as encounter_type_detail
 from outpatient_rehabilitation_institutional
 
-union
+union all
 
 select
   claim_id,
@@ -528,7 +528,7 @@ select
   'outpatient rehabilitation - professional' as encounter_type_detail
 from outpatient_rehabilitation_professional
 
-union
+union all
 
 select
   claim_id,
@@ -536,7 +536,7 @@ select
   'outpatient mental health - institutional' as encounter_type_detail
 from outpatient_mental_health_institutional
 
-union
+union all
 
 select
   claim_id,
@@ -544,7 +544,7 @@ select
   'outpatient mental health - professional' as encounter_type_detail
 from outpatient_mental_health_professional
 
-union
+union all
 
 select
   claim_id,
@@ -552,7 +552,7 @@ select
   'office visit' as encounter_type_detail
 from office_visit
 
-union
+union all
 
 select
   claim_id,
@@ -560,7 +560,7 @@ select
   'telehealth' as encounter_type_detail
 from telehealth
 
-union
+union all
 
 select
   claim_id,

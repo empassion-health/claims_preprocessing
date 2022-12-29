@@ -17,7 +17,7 @@ select
   0 as orphan_claim_flag
 from {{ ref('claims_preprocessing__generate_institutional_encounter_id') }}
 
-union
+union distinct
 
 select
   patient_id,
@@ -28,7 +28,7 @@ select
   orphan_claim_flag
 from {{ ref('claims_preprocessing__professional_claims_in_institutional_encounters') }}
 
-union
+union distinct
 
 select
   patient_id,
