@@ -35,6 +35,7 @@ clean-targets:
 models:
   claims_preprocessing:
     +materialized: table
+    +schema: int
 
 tests:
   +severity: warn
