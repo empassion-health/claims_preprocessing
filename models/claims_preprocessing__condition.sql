@@ -388,24 +388,19 @@ where aa.diagnosis_code_25 is not null
 
 
 select distinct
-  cast(c.encounter_id as varchar) as encounter_id
-  ,cast(c.patient_id as varchar) as patient_id
-  ,cast(c.condition_date as date) as condition_date
-  ,cast('discharge diagnosis' as varchar) as condition_type
-  ,cast(c.code_type as varchar) as code_type
-  ,cast(replace(c.code,'.','') as varchar) as code
-  ,cast(dx.short_description as varchar) as description
-  ,cast(c.diagnosis_rank as int) as diagnosis_rank
-  ,cast(p.present_on_admit_code as varchar) as present_on_admit_code
-  ,cast(poa.present_on_admit_description as varchar) as present_on_admit_description
-  ,cast(data_source as varchar) as data_source
-from unpivot_cte c
-left join condition_poa p
-  ON c.claim_id = p.claim_id
-  AND c.diagnosis_rank = p.diagnosis_rank
-left join {{ ref('terminology__icd_10_cm')}} dx
-  on c.code = icd_10_cm
-  and c.code_type in ('icd-10-cm')
-left join {{ ref ('terminology__present_on_admission')}} poa
-  on p.present_on_admit_code = poa.present_on_admit_code
-where code <> ''
+  unpivot_cte.encounter_id,
+  unpivot_cte.patient_id,
+  unpivot_cte.condition_date as condition_date,
+  unpivot_cte.condition_type as condition_type,
+  unpivot_cte.code_type as code_type,
+  unpivot_cte.code as code,
+  icd.short_description as description,
+  unpivot_cte.diagnosis_rank as diagnosis_rank,
+  unpivot_cte.present_on_admit_code as present_on_admit_code,
+  poa.present_on_admit_description as present_on_admit_description,
+  unpivot_cte.data_source as data_source
+from unpivot_cte
+     left join {{ ref('terminology__icd_10_cm') }} icd
+     on unpivot_cte.code = icd.icd_10_cm
+     left join {{ ref('terminology__present_on_admission') }} as poa
+     on unpivot_cte.present_on_admit_code = poa.present_on_admit_code
