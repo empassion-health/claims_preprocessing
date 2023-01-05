@@ -68,7 +68,7 @@ union all
 
 select 
 	cast(patient_id as string) as patient_id
-    ,cast(merge_criteria.merge_critera as string) as merge_criteria
+    ,cast(merge_criteria.merge_criteria as string) as merge_criteria
     ,cast(claim_id_a as string) as claim_id_a
     ,cast(claim_id_b as string) as claim_id_b
     ,cast(encounter_type as string) as encounter_type
