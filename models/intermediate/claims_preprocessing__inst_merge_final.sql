@@ -34,19 +34,19 @@ with master_claim_id as(
 )
 
 select 
-    cast(patient_id as varchar) as patient_id
-    ,cast('anchor' as varchar) as merge_criteria
-    ,cast(claim_id_a as varchar) as claim_id_a
-    ,cast(NULL as varchar) as claim_id_b
-    ,cast(encounter_type as varchar) as encounter_type
+    cast(patient_id as string) as patient_id
+    ,cast('anchor' as string) as merge_criteria
+    ,cast(claim_id_a as string) as claim_id_a
+    ,cast(NULL as string) as claim_id_b
+    ,cast(encounter_type as string) as encounter_type
     ,cast(NULL as date) as previous_claim_start_date
     ,cast(NULL as date) as previous_claim_end_date
     ,cast(previous_claim_start_date as date) as claim_start_date
     ,cast(previous_claim_end_date as date) as claim_end_date
-    ,cast(previous_facility_npi as varchar) as previous_facility_npi
-    ,cast(facility_npi as varchar) as facility_npi
-    ,cast(previous_discharge_disposition_code as varchar) as previous_discharge_disposition_code
-    ,cast(discharge_disposition_code as varchar) as discharge_disposition_code
+    ,cast(previous_facility_npi as string) as previous_facility_npi
+    ,cast(facility_npi as string) as facility_npi
+    ,cast(previous_discharge_disposition_code as string) as previous_discharge_disposition_code
+    ,cast(discharge_disposition_code as string) as discharge_disposition_code
 from master_claim_id
 
 {% if target.type in ('redshift') -%}
@@ -67,18 +67,18 @@ where ifnull(previous_claim, 'start') <> claim_id_a
 union all 
 
 select 
-	cast(patient_id as varchar) as patient_id
-    ,cast(merge_criteria as varchar) as merge_criteria
-    ,cast(claim_id_a as varchar) as claim_id_a
-    ,cast(claim_id_b as varchar) as claim_id_b
-    ,cast(encounter_type as varchar) as encounter_type
+	cast(patient_id as string) as patient_id
+    ,cast(merge_criteria as string) as merge_criteria
+    ,cast(claim_id_a as string) as claim_id_a
+    ,cast(claim_id_b as string) as claim_id_b
+    ,cast(encounter_type as string) as encounter_type
     ,cast(previous_claim_start_date as date) as previous_claim_start_date
     ,cast(previous_claim_end_date as date) as previous_claim_end_date
     ,cast(claim_start_date as date) as claim_start_date
     ,cast(claim_end_date as date) as claim_end_date
-    ,cast(previous_facility_npi as varchar) as previous_facility_npi
-    ,cast(facility_npi as varchar) as facility_npi
-    ,cast(previous_discharge_disposition_code as varchar) as previous_discharge_disposition_code
-    ,cast(discharge_disposition_code as varchar) as discharge_disposition_code
+    ,cast(previous_facility_npi as string) as previous_facility_npi
+    ,cast(facility_npi as string) as facility_npi
+    ,cast(previous_discharge_disposition_code as string) as previous_discharge_disposition_code
+    ,cast(discharge_disposition_code as string) as discharge_disposition_code
  from {{ ref('claims_preprocessing__inst_merge_stage')}}
   
