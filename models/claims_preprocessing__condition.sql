@@ -399,7 +399,7 @@ select distinct
   ,cast(p.present_on_admit_code as varchar) as present_on_admit_code
   ,cast(poa.present_on_admit_description as varchar) as present_on_admit_description
   ,cast(data_source as varchar) as data_source
-from condition_code c
+from unpivot_cte c
 left join condition_poa p
   ON c.claim_id = p.claim_id
   AND c.diagnosis_rank = p.diagnosis_rank
