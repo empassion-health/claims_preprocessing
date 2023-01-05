@@ -12,8 +12,8 @@ with encounter_type_union_stage as(
     , cast(discharge_disposition_code as string) as discharge_disposition_code
     , cast(billing_npi as string) as billing_npi
     , cast(facility_npi as string) as facility_npi
-    , cast(paid_amount as numeric(38,2)) as paid_amount
-    , cast(charge_amount as numeric(38,2)) as charge_amount
+    , cast(paid_amount as bignumeric) as paid_amount
+    , cast(charge_amount as bignumeric) as charge_amount
     , cast(bill_type_code as string) as bill_type_code
     , cast(revenue_center_code as string) as revenue_center_code
     , cast(place_of_service_code as string) as place_of_service_code
@@ -33,8 +33,8 @@ with encounter_type_union_stage as(
     , cast(med.discharge_disposition_code as string) as discharge_disposition_code
     , cast(med.billing_npi as string) as billing_npi
     , cast(med.facility_npi as string) as facility_npi
-    , cast(med.paid_amount as numeric(38,2)) as paid_amount
-    , cast(med.charge_amount as numeric(38,2)) as charge_amount
+    , cast(med.paid_amount as bignumeric) as paid_amount
+    , cast(med.charge_amount as bignumeric) as charge_amount
     , cast(ainp.bill_type_code as string) as bill_type_code
     , cast(ainp.revenue_center_code as string) as revenue_center_code
     , cast(ainp.place_of_service_code as string) as place_of_service_code
@@ -56,8 +56,8 @@ with encounter_type_union_stage as(
     , cast(med.discharge_disposition_code as string) as discharge_disposition_code
     , cast(med.billing_npi as string) as billing_npi
     , cast(med.facility_npi as string) as facility_npi
-    , cast(med.paid_amount as numeric(38,2)) as paid_amount
-    , cast(med.charge_amount as numeric(38,2)) as charge_amount
+    , cast(med.paid_amount as bignumeric) as paid_amount
+    , cast(med.charge_amount as bignumeric) as charge_amount
     , cast(med.bill_type_code as string) as bill_type_code
     , cast(med.revenue_center_code as string) as revenue_center_code
     , cast(med.place_of_service_code as string) as place_of_service_code
@@ -81,8 +81,8 @@ select
   , cast(discharge_disposition_code as string) as discharge_disposition_code
   , cast(billing_npi as string) as billing_npi
   , cast(facility_npi as string) as facility_npi
-  , cast(paid_amount as numeric(38,2)) as paid_amount
-  , cast(charge_amount as numeric(38,2)) as charge_amount
+  , cast(paid_amount as bignumeric) as paid_amount
+  , cast(charge_amount as bignumeric) as charge_amount
   , cast(bill_type_code as string) as bill_type_code
   , cast(revenue_center_code as string) as revenue_center_code
   , cast(place_of_service_code as string) as place_of_service_code
