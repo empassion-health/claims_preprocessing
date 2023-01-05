@@ -12,7 +12,7 @@
     ,enabled=var('claims_preprocessing_enabled',var('tuva_packages_enabled',True))
 ) }}
 
-with recursive stage (patient_id, group_claim_id, claim_id, depth) as(
+with recursive stage as (
     select
         patient_id
         ,claim_id_a as group_claim_id
