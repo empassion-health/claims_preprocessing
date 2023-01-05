@@ -7,38 +7,17 @@ profile: 'default'
 
 
 vars:
-### output config option 1, applies to all tuva packages
   tuva_database: dev_user
-  #tuva_schema_prefix: cpp_test
-
-### output config option 2, applies to claims_preprocessing, overrides option 1
-#  claims_preprocessing_database: tuva
-#  claims_preprocessing_schema: test_claims_preprocessing
-
-
-### input override config
-#  pharmacy_claim_override: "{{ref('pharmacy_claim')}}"
-#  medical_claim_override: "{{ref('medical_claim')}}"
-#  eligibility_override: "{{ref('eligibility')}}"
-
-## you can also point these to sources
-#  pharmacy_claim_override:  "{{ref('pharmacy_claim')}}"
-#  medical_claim_override:   "{{source('claims_input','medical_claim')}}"
-#  eligibility_override:     "{{source('claims_input','eligibility')}}"
-
-## if you're using sources, only in this integration tests, you can override default db and schema here
-#  claims_preprocessing_input_database: tuva
-#  claims_preprocessing_input_schema: claims_input
+#  tuva_schema_prefix: test
+# Set the input database and schema:
+#  claims_preprocessing_input_database: tuva_claims_demo_sample
+#  claims_preprocessing_input_schema: claims_common
+#  terminology_database: dev_
+#  terminology_schema: terminology
+#  tuva_packages_enabled: false
+#  claims_preprocessing_enabled: true
 
 
-
-### enabled/disabled configs
-## applies to all packages
-  tuva_packages_enabled: false
-
-## applies to claims_preprocessing only
-  claims_preprocessing_enabled: true
-  #terminology_enabled: false
 
 dispatch:
   - macro_namespace: dbt
@@ -61,5 +40,4 @@ clean-targets:
 models:
   integration_tests:
     +materialized: ephemeral
-#    +schema: claims_input
     +database: dev_user

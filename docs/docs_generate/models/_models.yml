@@ -329,8 +329,6 @@ models:
         description: Date of the 25th procedure on the claim.
       - name: data_source
         description: User-configured field that indicates the data source (e.g. typically named after the payer and state "BCBS Tennessee").
-
-
   - name: pharmacy_claim
     config:
       database: tuva
