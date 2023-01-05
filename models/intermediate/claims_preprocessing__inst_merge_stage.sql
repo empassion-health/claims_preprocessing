@@ -55,7 +55,7 @@ with previous_claim as(
   			and previous_claim_end_date <= claim_end_date 
   			and previous_facility_npi = facility_npi
         		then 'end overlap'
-        when datediff(day,previous_claim_end_date,claim_start_date) = 1 
+        when date_diff(claim_start_date,previous_claim_end_date,day) = 1 
   			and previous_facility_npi = facility_npi 
   			and previous_discharge_disposition_code = '30'
         	then 'adjacent'
