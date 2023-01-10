@@ -1,5 +1,7 @@
 {{ config(enabled=var('claims_preprocessing_enabled',var('tuva_packages_enabled',True))) }}
 
+{# jinja to use an empty pharmacy_claim table if the pharmacy_claim_exists var is set to false, or the node in the pharmacy_claim variable otherwise  #}
+{% if var('pharmacy_claim_exists',True) %}
 select
     cast(claim_id as {{ dbt.type_string() }}) as claim_id
     , cast(claim_line_number as {{ dbt.type_string() }}) as claim_line_number
@@ -17,3 +19,29 @@ select
     , cast(allowed_amount as numeric ) as allowed_amount
     , cast(data_source as {{ dbt.type_string() }}) as data_source
 from {{ var('pharmacy_claim')}} m
+
+{% else %}
+
+{% if execute %}
+{{- log("pharmacy_claim soruce does not exist, using empty table.", info=true) -}}
+{% endif %}
+select
+    cast(null as {{ dbt.type_string() }}) as claim_id
+    , cast(null as {{ dbt.type_string() }}) as claim_line_number
+    , cast(null as {{ dbt.type_string() }}) as patient_id
+    , cast(null as {{ dbt.type_string() }}) as member_id
+    , cast(null as {{ dbt.type_string() }}) as prescribing_provider_npi
+    , cast(null as {{ dbt.type_string() }}) as dispensing_provider_npi
+    , cast(null as date ) as dispensing_date
+    , cast(null as {{ dbt.type_string() }}) as ndc_code
+    , cast(null as int ) as quantity
+    , cast(null as int ) as days_supply
+    , cast(null as int) as refills
+    , cast(null as date ) as paid_date
+    , cast(null as numeric ) as paid_amount
+    , cast(null as numeric ) as allowed_amount
+    , cast(null as {{ dbt.type_string() }}) as data_source
+    limit 0
+
+{%- endif %}
+

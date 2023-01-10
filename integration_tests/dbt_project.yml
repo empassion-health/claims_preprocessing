@@ -6,18 +6,19 @@ profile: 'default'
 
 
 
-vars:
-  tuva_database: dev_user
+#vars:
+#  tuva_database: dev_user
 #  tuva_schema_prefix: test
 # Set the input database and schema:
-#  claims_preprocessing_input_database: tuva_claims_demo_sample
+#  claims_preprocessing_input_database: dev_suer
 #  claims_preprocessing_input_schema: claims_common
+#  claims_preprocessing_schema: frbtest3_core
 #  terminology_database: dev_
 #  terminology_schema: terminology
 #  tuva_packages_enabled: false
 #  claims_preprocessing_enabled: true
 
-
+#  pharmacy_claim_exists: false
 
 dispatch:
   - macro_namespace: dbt

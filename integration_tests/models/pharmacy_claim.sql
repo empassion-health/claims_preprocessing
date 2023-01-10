@@ -19,6 +19,7 @@ where 1=0
 =======
 select * from {{source('claims_common','pharmacy_claim')}}
 
+<<<<<<< HEAD
 --
 -- select
 --     cast(null as {{ dbt.type_string() }}) as CLAIM_ID
@@ -38,3 +39,5 @@ select * from {{source('claims_common','pharmacy_claim')}}
 --     ,cast(null as {{ dbt.type_string() }}) as DATA_SOURCE
 -- limit 0
 >>>>>>> 332d798ce52b4d8e860659805f1327a4b0076415
+=======
+>>>>>>> 3e70ffaa0e0f4213368a2fcb9ef74bb17fdf0f5e
