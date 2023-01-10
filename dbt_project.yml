@@ -14,7 +14,8 @@ vars:
     {%- else %}{{ref('medical_claim')}}
     {%- endif %}
   pharmacy_claim: >
-    {% if var('pharmacy_claim_override',none) is not none %}{{var('pharmacy_claim_override')}}
+    {% if not var('pharmacy_claim_exists',true) %}none
+    {%- elif var('pharmacy_claim_override',none) is not none %}{{var('pharmacy_claim_override')}}
     {%- else %}{{ref('pharmacy_claim')}}
     {%- endif %}
     

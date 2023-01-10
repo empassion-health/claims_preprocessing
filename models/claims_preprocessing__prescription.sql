@@ -1,12 +1,7 @@
 {{ config(enabled=var('claims_preprocessing_enabled',var('tuva_packages_enabled',True))) }}
 
-{% if builtins.var('pharmacy_claim')|lower == "none" %}
-{% set source_exists = false %}
-{% else %}
-{% set source_exists = true %}
-{% endif -%}
-
-{% if source_exists %}
+{# jinja to use an empty pharmacy_claim table if the pharmacy_claim_exists var is set to false, or the node in the pharmacy_claim variable otherwise  #}
+{% if var('pharmacy_claim_exists',True) %}
 select
     cast(claim_id as {{ dbt.type_string() }}) as claim_id
     , cast(claim_line_number as {{ dbt.type_string() }}) as claim_line_number
