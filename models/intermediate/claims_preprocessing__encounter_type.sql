@@ -42,7 +42,7 @@ valid_ms_drg as (
 select distinct mc.claim_id
 from {{ ref('claims_preprocessing__medical_claim') }} mc
 inner join  {{ ref('terminology__ms_drg')}} as msdrg
-    on mc.ms_drg_code = msdrg.ms_drg_code
+    on cast(mc.ms_drg_code as int) = cast(msdrg.ms_drg_code as int)
 ),
 
 
