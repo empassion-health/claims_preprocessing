@@ -5,13 +5,11 @@
    )
 }}
 
-
-
-
 with unpivot_cte as (
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -27,6 +25,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -42,6 +41,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -57,6 +57,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -72,6 +73,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -87,6 +89,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -102,6 +105,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -117,6 +121,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -132,6 +137,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -147,6 +153,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -162,6 +169,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -177,6 +185,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -192,6 +201,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -207,6 +217,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -222,6 +233,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -237,6 +249,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -252,6 +265,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -267,6 +281,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -282,6 +297,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -297,6 +313,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -312,6 +329,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -327,6 +345,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -342,6 +361,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -357,6 +377,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -372,6 +393,7 @@ union all
 
 select
   aa.encounter_id,
+  aa.claim_id,
   aa.patient_id,
   aa.claim_start_date as condition_date,
   'discharge_diagnosis' as condition_type,
@@ -389,6 +411,7 @@ where aa.diagnosis_code_25 is not null
 
 select distinct
   unpivot_cte.encounter_id,
+  unpivot_cte.claim_id,
   unpivot_cte.patient_id,
   unpivot_cte.condition_date as condition_date,
   unpivot_cte.condition_type as condition_type,
