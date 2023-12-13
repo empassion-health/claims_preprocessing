@@ -22,7 +22,7 @@ with patient_stage as(
         ,city
         ,state
         ,zip_code
-        ,phone_primary
+        ,primary_phone
         ,data_source
         ,row_number() over (
 	    partition by patient_id
@@ -43,7 +43,7 @@ select
     ,cast(city as {{ dbt.type_string() }}) as city
     ,cast(state as {{ dbt.type_string() }}) as state
     ,cast(zip_code as {{ dbt.type_string() }}) as zip_code
-    ,cast(phone_primary as {{ dbt.type_string() }}) as phone_primary
+    ,cast(primary_phone as {{ dbt.type_string() }}) as primary_phone
     ,cast(data_source as {{ dbt.type_string() }}) as data_source
 from patient_stage
 where row_sequence = 1
