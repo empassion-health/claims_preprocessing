@@ -9,7 +9,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: prescription
+      alias: prescription_1
       tags: claims_preprocessing
 
   - name: claims_preprocessing__patient
@@ -29,7 +29,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: encounter
+      alias: encounter_1
       tags: claims_preprocessing
 
   - name: claims_preprocessing__condition
@@ -39,7 +39,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: condition
+      alias: condition_1
       tags: claims_preprocessing
 
 
@@ -50,7 +50,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: procedure
+      alias: procedure_1
       tags: claims_preprocessing
 
 
@@ -61,7 +61,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: staging_eligibility
+      alias: staging_eligibility_1
       tags: claims_preprocessing
 
 
@@ -72,7 +72,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: staging_medical_claim
+      alias: staging_medical_claim_1
       tags: claims_preprocessing
 
 
@@ -83,7 +83,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: intermediate_encounter_id
+      alias: intermediate_encounter_id_1
       tags: claims_preprocessing
 
 
@@ -94,7 +94,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: intermediate_encounter_type
+      alias: intermediate_encounter_type_1
       tags: claims_preprocessing
 
 
@@ -105,7 +105,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: intermediate_generate_institutional_encounter_id
+      alias: intermediate_generate_institutional_encounter_id_1
       tags: claims_preprocessing
 
 
@@ -116,7 +116,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: intermediate_institutional_encounter_start_and_end_dates
+      alias: intermediate_institutional_encounter_start_and_end_dates_1
       tags: claims_preprocessing
 
 
@@ -127,7 +127,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: intermediate_medical_claim_enhanced
+      alias: intermediate_medical_claim_enhanced_1
       tags: claims_preprocessing
 
 
@@ -138,7 +138,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: intermediate_mutually_exclusive_encounter_type
+      alias: intermediate_mutually_exclusive_encounter_type_1
       tags: claims_preprocessing
 
 
@@ -149,7 +149,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: intermediate_professional_claims_in_institutional_encounters
+      alias: intermediate_professional_claims_in_institutional_encounters_1
       tags: claims_preprocessing
 
 
@@ -160,7 +160,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: intermediate_professional_encounters
+      alias: intermediate_professional_encounters_1
       tags: claims_preprocessing
 
 
@@ -171,5 +171,5 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
         {% else %}core{%- endif -%}
-      alias: intermediate_relevant_encounter_type_claims
+      alias: intermediate_relevant_encounter_type_claims_1
       tags: claims_preprocessing
