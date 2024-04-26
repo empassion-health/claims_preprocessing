@@ -423,7 +423,7 @@ select distinct
   poa.present_on_admit_description as present_on_admit_description,
   unpivot_cte.data_source as data_source
 from unpivot_cte
-     left join {{ ref('terminology__icd_10_cm') }} icd
+     left join {{ ref('terminology__icd_10_cm_1') }} icd
      on unpivot_cte.code = icd.icd_10_cm
-     left join {{ ref('terminology__present_on_admission') }} as poa
+     left join {{ ref('terminology__present_on_admission_1') }} as poa
      on unpivot_cte.present_on_admit_code = poa.present_on_admit_code

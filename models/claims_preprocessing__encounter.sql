@@ -61,13 +61,13 @@ select
   aa.data_source as data_source
 
 from table_without_descriptions aa
-     left join {{ ref('terminology__admit_source') }} bb
+     left join {{ ref('terminology__admit_source_1') }} bb
      on aa.admit_source_code = bb.admit_source_code
-     left join {{ ref('terminology__admit_type') }} cc
+     left join {{ ref('terminology__admit_type_1') }} cc
      on aa.admit_type_code = cc.admit_type_code
-     left join {{ ref('terminology__discharge_disposition') }} dd
+     left join {{ ref('terminology__discharge_disposition_1') }} dd
      on aa.discharge_disposition_code = dd.discharge_disposition_code
-     left join {{ ref('terminology__ms_drg') }} ee
+     left join {{ ref('terminology__ms_drg_1') }} ee
      on aa.ms_drg_code = ee.ms_drg_code
      
 )

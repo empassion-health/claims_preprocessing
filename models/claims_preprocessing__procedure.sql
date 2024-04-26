@@ -345,6 +345,6 @@ select distinct
   unpivot_cte.practitioner_npi as practitioner_npi,
   unpivot_cte.data_source as data_source
 from unpivot_cte
-  left join {{ ref('terminology__icd_10_pcs') }} as icd
+  left join {{ ref('terminology__icd_10_pcs_1') }} as icd
     on unpivot_cte.code = icd.icd_10_pcs
 
