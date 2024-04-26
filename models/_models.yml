@@ -19,7 +19,7 @@ models:
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_int
         {% else %}core{%- endif -%}
-      alias: patient
+      alias: patient_1
       tags: claims_preprocessing
 
   - name: claims_preprocessing__encounter
