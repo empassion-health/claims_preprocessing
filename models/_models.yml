@@ -4,7 +4,7 @@ models:
   - name: claims_preprocessing__prescription
     description: Medications from claims
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -14,7 +14,7 @@ models:
 
   - name: claims_preprocessing__patient
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_int
@@ -24,7 +24,7 @@ models:
 
   - name: claims_preprocessing__encounter
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -34,7 +34,7 @@ models:
 
   - name: claims_preprocessing__condition
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -45,7 +45,7 @@ models:
 
   - name: claims_preprocessing__procedure
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -56,7 +56,7 @@ models:
 
   - name: claims_preprocessing__eligibility
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -67,7 +67,7 @@ models:
 
   - name: claims_preprocessing__medical_claim
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -78,7 +78,7 @@ models:
 
   - name: claims_preprocessing__encounter_id
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -89,7 +89,7 @@ models:
 
   - name: claims_preprocessing__encounter_type
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -100,7 +100,7 @@ models:
 
   - name: claims_preprocessing__generate_institutional_encounter_id
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -111,7 +111,7 @@ models:
 
   - name: claims_preprocessing__institutional_encounter_start_and_end_dates
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -122,7 +122,7 @@ models:
 
   - name: claims_preprocessing__medical_claim_enhanced
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -133,7 +133,7 @@ models:
 
   - name: claims_preprocessing__mutually_exclusive_encounter_type
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -144,7 +144,7 @@ models:
 
   - name: claims_preprocessing__professional_claims_in_institutional_encounters
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -155,7 +155,7 @@ models:
 
   - name: claims_preprocessing__professional_encounters
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
@@ -166,7 +166,7 @@ models:
 
   - name: claims_preprocessing__relevant_encounter_type_claims
     config:
-      database: "{{ var('claims_preprocessing_database',var('tuva_database','tuva')) }}"
+      database: "{% if target.name == 'dev' %}pre-production-dna{% else %}{{ target.database }}{% endif %}"
       schema: |
         {%- if var('claims_preprocessing_schema',None) != None -%}{{var('claims_preprocessing_schema')}}
         {%- elif var('tuva_schema_prefix',None) != None -%}{{var('tuva_schema_prefix')}}_core
